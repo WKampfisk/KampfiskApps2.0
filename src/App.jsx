@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react'
 import {
   Search, X, ExternalLink, Github, Star, ArrowRight,
-  Shield, Download, HeartHandshake, BadgeCheck, ShoppingCart
+  Shield, Download, HeartHandshake, BadgeCheck, ShoppingCart,
+  Rocket, Wrench, Heart, Gamepad2, BookOpen, LayoutGrid,
 } from 'lucide-react'
-import { apps, categories } from './data/apps'
+import { apps, categories, categoryTiles } from './data/apps'
 
 const NAV = [
   { id: 'hjem', label: 'Hjem', href: '#' },
@@ -20,17 +21,30 @@ const TRUST = [
   { icon: BadgeCheck, title: 'Høy kvalitet', sub: 'Kun utvalgte apper' },
 ]
 
-function BrandMark({ className = 'h-9' }) {
+const TILE_ICONS = {
+  Rocket,
+  Wrench,
+  Heart,
+  Gamepad2,
+  BookOpen,
+  LayoutGrid,
+}
+
+function BrandMark({ size = 'md' }) {
+  const img = size === 'sm' ? 'h-8 w-8' : 'h-10 w-10'
+  const text = size === 'sm' ? 'text-base' : 'text-lg'
   return (
-    <a href="#" className={`flex items-center gap-2.5 group ${className}`}>
-      <img
-        src="/brand/logo-icon.png"
-        alt="KampfiskApps"
-        className="h-9 w-9 object-contain drop-shadow-[0_0_12px_rgba(56,189,248,0.35)]"
-      />
+    <a href="#" className="flex items-center gap-2.5 group shrink-0">
+      <span className={`${img} rounded-full overflow-hidden ring-2 ring-cyan-100 shadow-sm shadow-cyan-200/50 bg-slate-900`}>
+        <img
+          src="/brand/logo2BEST.png"
+          alt="KampfiskApps"
+          className="h-full w-full logo-betta"
+        />
+      </span>
       <div className="leading-none">
-        <span className="font-bold text-lg tracking-tight text-white">Kampfisk</span>
-        <span className="font-bold text-lg tracking-tight text-rose-500">Apps</span>
+        <span className={`font-bold ${text} tracking-tight text-slate-900`}>Kampfisk</span>
+        <span className={`font-bold ${text} tracking-tight text-rose-500`}>Apps</span>
       </div>
     </a>
   )
@@ -41,22 +55,24 @@ function App() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [selectedApp, setSelectedApp] = useState(null)
   const [sortMode, setSortMode] = useState('featured')
+  const [mobileNav, setMobileNav] = useState(false)
 
   const filteredApps = useMemo(() => {
     let result = [...apps]
     if (searchTerm.trim()) {
       const q = searchTerm.toLowerCase()
-      result = result.filter(app =>
-        app.name.toLowerCase().includes(q) ||
-        app.tagline.toLowerCase().includes(q) ||
-        app.description.toLowerCase().includes(q) ||
-        (app.tags && app.tags.join(' ').toLowerCase().includes(q))
+      result = result.filter(
+        (app) =>
+          app.name.toLowerCase().includes(q) ||
+          app.tagline.toLowerCase().includes(q) ||
+          app.description.toLowerCase().includes(q) ||
+          (app.tags && app.tags.join(' ').toLowerCase().includes(q)),
       )
     }
     if (activeCategory !== 'All') {
-      result = result.filter(app => app.category === activeCategory)
+      result = result.filter((app) => app.category === activeCategory)
     }
-    if (sortMode === 'name') result.sort((a, b) => a.name.localeCompare(b.name))
+    if (sortMode === 'name') result.sort((a, b) => a.name.localeCompare(b.name, 'nb'))
     else if (sortMode === 'category') result.sort((a, b) => a.category.localeCompare(b.category))
     return result
   }, [searchTerm, activeCategory, sortMode])
@@ -74,19 +90,22 @@ function App() {
   }
 
   React.useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape' && selectedApp) closeModal() }
+    const onKey = (e) => {
+      if (e.key === 'Escape' && selectedApp) closeModal()
+    }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [selectedApp])
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    setMobileNav(false)
   }
 
   return (
-    <div className="min-h-screen bg-[#050b16] text-slate-200">
+    <div className="min-h-screen bg-slate-50 text-slate-800">
       {/* Navbar */}
-      <nav className="border-b border-white/5 bg-[#050b16]/85 backdrop-blur-xl sticky top-0 z-50">
+      <nav className="border-b border-slate-200/80 bg-white/90 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-5 sm:px-6 h-[68px] flex items-center justify-between gap-4">
           <BrandMark />
 
@@ -102,7 +121,7 @@ function App() {
                     else scrollTo(n.href.slice(1))
                   }
                 }}
-                className="px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition"
+                className="px-3 py-2 rounded-lg text-slate-500 hover:text-cyan-600 hover:bg-cyan-50 transition font-medium"
               >
                 {n.label}
               </a>
@@ -110,60 +129,90 @@ function App() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <button className="p-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition" aria-label="Handlekurv">
+            <button
+              type="button"
+              className="p-2.5 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition"
+              aria-label="Handlekurv"
+            >
               <ShoppingCart size={18} />
             </button>
-            <a
-              href="https://github.com/WKampfisk"
-              target="_blank"
-              rel="noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-sm text-slate-400 hover:text-white transition"
+            <button
+              type="button"
+              className="bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 text-white font-semibold text-sm px-4 py-2 rounded-xl transition shadow-md shadow-cyan-500/20"
             >
-              <Github size={16} /> GitHub
-            </a>
-            <button className="bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 text-[#04101f] font-semibold text-sm px-4 py-2 rounded-xl transition shadow-[0_0_24px_rgba(34,211,238,0.25)]">
               Logg inn
             </button>
-            <span className="hidden lg:inline text-lg" title="Norsk">🇳🇴</span>
+            <span className="hidden sm:inline text-base" title="Norsk">
+              🇳🇴
+            </span>
+            <button
+              type="button"
+              className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100"
+              onClick={() => setMobileNav((v) => !v)}
+              aria-label="Meny"
+            >
+              {mobileNav ? <X size={20} /> : <LayoutGrid size={20} />}
+            </button>
           </div>
         </div>
+        {mobileNav && (
+          <div className="md:hidden border-t border-slate-100 bg-white px-5 py-3 space-y-1">
+            {NAV.map((n) => (
+              <a
+                key={n.id}
+                href={n.href}
+                onClick={(e) => {
+                  e.preventDefault()
+                  if (n.href === '#') window.scrollTo({ top: 0, behavior: 'smooth' })
+                  else scrollTo(n.href.slice(1))
+                }}
+                className="block px-3 py-2.5 rounded-lg text-slate-600 hover:bg-cyan-50 hover:text-cyan-700 text-sm font-medium"
+              >
+                {n.label}
+              </a>
+            ))}
+          </div>
+        )}
       </nav>
 
-      {/* Hero — matches layout webstore reference */}
-      <section className="relative overflow-hidden border-b border-white/5">
-        <div className="absolute inset-0 hero-glow pointer-events-none" />
+      {/* Hero — Light & Bright */}
+      <section className="relative overflow-hidden border-b border-slate-100">
+        <div className="absolute inset-0 hero-light pointer-events-none" />
         <div className="max-w-7xl mx-auto px-5 sm:px-6 pt-12 sm:pt-16 pb-14 sm:pb-20 grid lg:grid-cols-2 gap-10 items-center relative">
           <div className="relative z-10">
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-bold tracking-tight leading-[1.08] text-white">
-              Oppdag. Kjøp.<br />
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-tight leading-[1.08] text-slate-900">
+              Oppdag. Kjøp.
+              <br />
               Bruk. <span className="text-rose-500">Kampfisk.</span>
             </h1>
-            <p className="mt-5 text-lg text-slate-400 max-w-md leading-relaxed">
+            <p className="mt-5 text-lg text-slate-500 max-w-md leading-relaxed">
               Kvalitetsapper og digitale produkter laget for deg.
             </p>
 
             <div className="mt-7 relative max-w-lg">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
               <input
                 type="search"
                 placeholder="Søk etter apper eller produkter..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onFocus={() => scrollTo('apps')}
-                className="w-full bg-white/5 border border-white/10 focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 pl-11 pr-4 py-3.5 rounded-2xl text-sm placeholder:text-slate-500 outline-none transition"
+                className="w-full bg-white border border-slate-200 focus:border-cyan-400 focus:ring-4 focus:ring-cyan-100 pl-11 pr-4 py-3.5 rounded-2xl text-sm placeholder:text-slate-400 outline-none transition shadow-sm"
               />
             </div>
 
             <div className="flex flex-wrap gap-3 mt-6">
               <button
+                type="button"
                 onClick={() => scrollTo('apps')}
-                className="bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-400 hover:to-orange-400 text-white font-semibold px-6 py-3 rounded-xl transition shadow-[0_8px_30px_rgba(244,63,94,0.3)]"
+                className="bg-gradient-to-r from-rose-500 to-orange-400 hover:from-rose-400 hover:to-orange-300 text-white font-semibold px-6 py-3 rounded-xl transition shadow-lg shadow-rose-500/25"
               >
                 Utforsk apper
               </button>
               <button
+                type="button"
                 onClick={() => scrollTo('kategorier')}
-                className="border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500/10 font-semibold px-6 py-3 rounded-xl transition"
+                className="border-2 border-cyan-400 text-cyan-600 hover:bg-cyan-50 font-semibold px-6 py-3 rounded-xl transition bg-white"
               >
                 Se kategorier
               </button>
@@ -171,11 +220,11 @@ function App() {
           </div>
 
           <div className="relative flex justify-center lg:justify-end">
-            <div className="absolute w-[70%] h-[70%] rounded-full bg-cyan-500/15 blur-3xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute w-[65%] h-[65%] rounded-full bg-cyan-200/40 blur-3xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             <img
-              src="/brand/hero-betta.png"
+              src="/brand/logo2BEST.png"
               alt="Kampfisk — betta mascot"
-              className="relative z-10 w-full max-w-xl object-contain drop-shadow-[0_20px_60px_rgba(6,182,212,0.35)] select-none"
+              className="relative z-10 w-full max-w-xl object-contain drop-shadow-2xl select-none"
               draggable={false}
             />
           </div>
@@ -183,15 +232,15 @@ function App() {
       </section>
 
       {/* Trust row */}
-      <section className="border-b border-white/5 bg-[#070f1c]/80">
-        <div className="max-w-7xl mx-auto px-5 sm:px-6 py-6 grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section className="border-b border-slate-100 bg-white">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 py-7 grid grid-cols-2 lg:grid-cols-4 gap-4">
           {TRUST.map(({ icon: Icon, title, sub }) => (
             <div key={title} className="flex items-start gap-3 p-2">
-              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-cyan-50 border border-cyan-100 flex items-center justify-center text-cyan-600 shrink-0">
                 <Icon size={18} />
               </div>
               <div>
-                <div className="text-sm font-semibold text-white">{title}</div>
+                <div className="text-sm font-semibold text-slate-900">{title}</div>
                 <div className="text-xs text-slate-500 mt-0.5">{sub}</div>
               </div>
             </div>
@@ -202,8 +251,12 @@ function App() {
       {/* Featured apps */}
       <section className="max-w-7xl mx-auto px-5 sm:px-6 pt-12 sm:pt-14">
         <div className="flex items-end justify-between mb-6">
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Utvalgte apper</h2>
-          <button onClick={() => scrollTo('apps')} className="text-sm text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Utvalgte apper</h2>
+          <button
+            type="button"
+            onClick={() => scrollTo('apps')}
+            className="text-sm text-cyan-600 hover:text-cyan-700 flex items-center gap-1 font-medium"
+          >
             Se alle <ArrowRight size={14} />
           </button>
         </div>
@@ -213,19 +266,21 @@ function App() {
               key={app.id}
               type="button"
               onClick={() => openApp(app)}
-              className="text-left group rounded-2xl border border-white/8 bg-gradient-to-b from-white/[0.06] to-white/[0.02] hover:border-cyan-500/30 p-5 transition shadow-lg shadow-black/20"
+              className="text-left group rounded-2xl border border-slate-200 bg-white hover:border-cyan-300 p-5 transition shadow-sm hover:shadow-md"
             >
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-rose-500/20 border border-white/10 flex items-center justify-center text-lg font-bold text-white mb-4">
+              <div
+                className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${app.iconTone || 'from-cyan-400 to-sky-500'} flex items-center justify-center text-sm font-bold text-white mb-4 shadow-sm`}
+              >
                 {app.iconLabel || app.name.slice(0, 2).toUpperCase()}
               </div>
-              <div className="font-semibold text-white group-hover:text-cyan-200 transition">{app.name}</div>
+              <div className="font-semibold text-slate-900 group-hover:text-cyan-700 transition">{app.name}</div>
               <div className="text-xs text-slate-500 mt-1 line-clamp-1">{app.categoryNo || app.category}</div>
-              <div className="flex items-center gap-1.5 mt-3 text-xs text-amber-400">
+              <div className="flex items-center gap-1.5 mt-3 text-xs text-amber-500">
                 <Star size={12} fill="currentColor" />
-                <span>{app.rating || '4.6'}</span>
-                <span className="text-slate-600">({app.reviews || 24})</span>
+                <span className="font-medium text-slate-700">{app.rating || '4.6'}</span>
+                <span className="text-slate-400">({app.reviews || 24})</span>
               </div>
-              <div className="mt-3 text-sm font-semibold text-white">{app.priceNo || app.price}</div>
+              <div className="mt-3 text-sm font-semibold text-slate-900">{app.priceNo || app.price}</div>
             </button>
           ))}
         </div>
@@ -234,23 +289,48 @@ function App() {
       {/* Categories */}
       <section id="kategorier" className="max-w-7xl mx-auto px-5 sm:px-6 pt-14">
         <div className="flex items-end justify-between mb-6">
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Kategorier</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Kategorier</h2>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+          {categoryTiles.map((tile) => {
+            const Icon = TILE_ICONS[tile.icon] || LayoutGrid
+            const active = activeCategory === tile.id
+            return (
+              <button
+                key={tile.label}
+                type="button"
+                onClick={() => {
+                  setActiveCategory(tile.id)
+                  scrollTo('apps')
+                }}
+                className={`flex flex-col items-center gap-2 p-4 rounded-2xl border transition ${
+                  active
+                    ? 'bg-cyan-50 border-cyan-300 text-cyan-700 shadow-sm'
+                    : 'bg-white border-slate-200 text-slate-600 hover:border-cyan-200 hover:bg-slate-50'
+                }`}
+              >
+                <Icon size={22} className={active ? 'text-cyan-600' : 'text-slate-400'} />
+                <span className="text-xs font-medium text-center">{tile.label}</span>
+              </button>
+            )
+          })}
         </div>
         <div className="flex flex-wrap gap-2">
           {categories.map((cat) => (
             <button
               key={cat}
+              type="button"
               onClick={() => {
                 setActiveCategory(cat)
                 scrollTo('apps')
               }}
-              className={`px-4 py-2 text-sm rounded-xl border transition ${
+              className={`px-4 py-2 text-sm rounded-xl border transition font-medium ${
                 activeCategory === cat
-                  ? 'bg-cyan-500/15 border-cyan-400/40 text-cyan-200'
-                  : 'border-white/10 text-slate-400 hover:border-white/20 hover:text-white'
+                  ? 'bg-cyan-50 border-cyan-300 text-cyan-700'
+                  : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-800'
               }`}
             >
-              {cat === 'All' ? 'Alle kategorier' : cat}
+              {cat === 'All' ? 'Alle' : cat}
             </button>
           ))}
         </div>
@@ -260,21 +340,25 @@ function App() {
       <section id="apps" className="max-w-7xl mx-auto px-5 sm:px-6 pt-12 pb-20">
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-8">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Alle apper</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Alle apper</h2>
             <p className="text-slate-500 mt-1 text-sm">Oppdag verktøy bygget for ekte behov</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
             <div className="relative flex-1 sm:w-72">
-              <Search className="absolute left-4 top-3.5 text-slate-500" size={18} />
+              <Search className="absolute left-4 top-3.5 text-slate-400" size={18} />
               <input
                 type="text"
                 placeholder="Søk i katalogen..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 focus:border-cyan-500/40 pl-11 pr-4 py-2.5 rounded-2xl text-sm placeholder:text-slate-500 outline-none"
+                className="w-full bg-white border border-slate-200 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100 pl-11 pr-4 py-2.5 rounded-2xl text-sm placeholder:text-slate-400 outline-none shadow-sm"
               />
               {searchTerm && (
-                <button onClick={() => setSearchTerm('')} className="absolute right-4 top-3 text-slate-500 hover:text-slate-300">
+                <button
+                  type="button"
+                  onClick={() => setSearchTerm('')}
+                  className="absolute right-4 top-3 text-slate-400 hover:text-slate-600"
+                >
                   <X size={18} />
                 </button>
               )}
@@ -282,7 +366,7 @@ function App() {
             <select
               value={sortMode}
               onChange={(e) => setSortMode(e.target.value)}
-              className="bg-white/5 border border-white/10 text-sm rounded-2xl px-4 py-2.5 outline-none cursor-pointer"
+              className="bg-white border border-slate-200 text-sm rounded-2xl px-4 py-2.5 outline-none cursor-pointer text-slate-700 shadow-sm"
             >
               <option value="featured">Utvalgte</option>
               <option value="name">A — Å</option>
@@ -301,36 +385,39 @@ function App() {
               <div
                 key={app.id}
                 onClick={() => openApp(app)}
-                className="app-card group bg-[#0a1424] border border-white/8 hover:border-cyan-500/30 rounded-3xl overflow-hidden cursor-pointer flex flex-col"
+                onKeyDown={(e) => e.key === 'Enter' && openApp(app)}
+                role="button"
+                tabIndex={0}
+                className="app-card group bg-white border border-slate-200 hover:border-cyan-300 rounded-3xl overflow-hidden cursor-pointer flex flex-col shadow-sm"
               >
-                <div className="relative h-44 bg-[#0d1b30] overflow-hidden">
+                <div className="relative h-44 bg-slate-100 overflow-hidden">
                   <img
                     src={app.image}
                     alt={app.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    onError={(e) => { e.currentTarget.src = '/brand/hero-betta.png' }}
+                    onError={(e) => {
+                      e.currentTarget.src = '/brand/logo2BEST.png'
+                    }}
                   />
                   <div className="absolute top-3 right-3">
-                    <span className="bg-black/70 text-white text-[10px] font-medium px-2.5 py-0.5 rounded-full backdrop-blur">
+                    <span className="bg-white/95 text-slate-700 text-[10px] font-semibold px-2.5 py-0.5 rounded-full shadow-sm border border-slate-100">
                       {app.status}
                     </span>
                   </div>
                   <div className="absolute bottom-3 left-3">
-                    <span className="text-xs px-3 py-1 bg-white/90 text-slate-900 rounded-2xl font-medium tracking-tight">
-                      {app.category}
+                    <span className="text-xs px-3 py-1 bg-white/95 text-slate-800 rounded-2xl font-medium tracking-tight shadow-sm border border-slate-100">
+                      {app.categoryNo || app.category}
                     </span>
                   </div>
                 </div>
                 <div className="p-5 flex-1 flex flex-col">
-                  <div className="font-semibold text-xl tracking-tight mb-1 text-white group-hover:text-cyan-200 transition">
+                  <div className="font-semibold text-xl tracking-tight mb-1 text-slate-900 group-hover:text-cyan-700 transition">
                     {app.name}
                   </div>
-                  <div className="text-slate-400 text-sm leading-snug line-clamp-2 mb-4">
-                    {app.tagline}
-                  </div>
+                  <div className="text-slate-500 text-sm leading-snug line-clamp-2 mb-4">{app.tagline}</div>
                   <div className="mt-auto flex items-center justify-between text-sm">
-                    <div className="font-medium text-cyan-400">{app.priceNo || app.price}</div>
-                    <div className="flex items-center gap-1 text-slate-400 group-hover:text-slate-300">
+                    <div className="font-semibold text-cyan-600">{app.priceNo || app.price}</div>
+                    <div className="flex items-center gap-1 text-slate-400 group-hover:text-slate-600">
                       Detaljer <ArrowRight size={15} className="group-hover:translate-x-0.5 transition" />
                     </div>
                   </div>
@@ -339,8 +426,15 @@ function App() {
             ))
           ) : (
             <div className="col-span-full py-12 text-center">
-              <p className="text-slate-400">Ingen apper matcher søket.</p>
-              <button onClick={() => { setSearchTerm(''); setActiveCategory('All') }} className="mt-4 text-sm underline text-cyan-400">
+              <p className="text-slate-500">Ingen apper matcher søket.</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchTerm('')
+                  setActiveCategory('All')
+                }}
+                className="mt-4 text-sm underline text-cyan-600"
+              >
                 Nullstill filtre
               </button>
             </div>
@@ -348,93 +442,150 @@ function App() {
         </div>
       </section>
 
-      {/* About / help anchors */}
-      <section id="om" className="border-t border-white/5 bg-[#070f1c]/60">
+      {/* About */}
+      <section id="om" className="border-t border-slate-200 bg-white">
         <div className="max-w-7xl mx-auto px-5 sm:px-6 py-14 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <h2 className="text-2xl font-bold text-white mb-3">Om KampfiskApps</h2>
-            <p className="text-slate-400 leading-relaxed text-sm">
-              Premium apper og digitale produkter laget med kvalitet og omtanke.
-              Fra naturutforskning med ShroomFinder til læringsverktøy og produktivitet —
-              alt bygget for ekte bruk i Norge og verden.
+            <h2 className="text-2xl font-bold text-slate-900 mb-3">Om KampfiskApps</h2>
+            <p className="text-slate-500 leading-relaxed text-sm">
+              Premium apper og digitale produkter laget med kvalitet og omtanke. Fra naturutforskning
+              med FungaDex til læringsverktøy og produktivitet — alt bygget for ekte bruk i Norge og
+              verden.
+            </p>
+            <p className="text-slate-400 text-xs mt-4">
+              Kontakt: post@kampfiskapps.com
             </p>
           </div>
-          <img
-            src="/brand/hero-betta-alt.png"
-            alt="Kampfisk alt mascot"
-            className="w-full max-w-sm mx-auto object-contain opacity-90"
-          />
+          <div className="relative">
+            <div className="absolute inset-0 bg-cyan-100/50 blur-2xl rounded-full scale-75" />
+            <img
+              src="/brand/logo1BEST.png"
+              alt="Kampfisk betta"
+              className="relative w-full max-w-sm mx-auto object-contain"
+            />
+          </div>
         </div>
       </section>
 
-      <section id="hjelp" className="border-t border-white/5">
+      <section id="hjelp" className="border-t border-slate-100 bg-slate-50">
         <div className="max-w-7xl mx-auto px-5 sm:px-6 py-12 text-center">
-          <h2 className="text-xl font-bold text-white mb-2">Hjelp & støtte</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-2">Hjelp & støtte</h2>
           <p className="text-slate-500 text-sm mb-4">Spørsmål om kjøp, nedlasting eller tilgang?</p>
-          <a
-            href="https://github.com/WKampfisk"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-medium text-cyan-400 hover:underline"
-          >
-            Kontakt via GitHub <ExternalLink size={14} />
-          </a>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a
+              href="mailto:post@kampfiskapps.com"
+              className="inline-flex items-center gap-2 text-sm font-medium text-cyan-600 hover:underline"
+            >
+              post@kampfiskapps.com
+            </a>
+            <a
+              href="https://github.com/WKampfisk"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-800"
+            >
+              GitHub <ExternalLink size={14} />
+            </a>
+          </div>
         </div>
       </section>
 
       {/* Modal */}
       {selectedApp && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4" onClick={closeModal}>
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4"
+          onClick={closeModal}
+        >
           <div
-            className="modal bg-[#0a1424] border border-white/10 rounded-3xl w-full max-w-3xl overflow-hidden max-h-[90vh] overflow-y-auto"
+            className="modal modal-scroll bg-white border border-slate-200 rounded-3xl w-full max-w-3xl overflow-hidden max-h-[90vh] overflow-y-auto shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative h-64 sm:h-72">
-              <img src={selectedApp.image} alt={selectedApp.name} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = '/brand/hero-betta.png' }} />
-              <button onClick={closeModal} className="absolute top-4 right-4 bg-black/60 hover:bg-black/80 transition p-2 rounded-full backdrop-blur">
-                <X size={20} />
+            <div className="relative h-56 sm:h-64 bg-slate-100">
+              <img
+                src={selectedApp.image}
+                alt={selectedApp.name}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.src = '/brand/logo2BEST.png'
+                }}
+              />
+              <button
+                type="button"
+                onClick={closeModal}
+                className="absolute top-4 right-4 bg-white/90 hover:bg-white transition p-2 rounded-full shadow border border-slate-100"
+                aria-label="Lukk"
+              >
+                <X size={20} className="text-slate-700" />
               </button>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0a1424] to-transparent h-24" />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white to-transparent h-20" />
             </div>
-            <div className="p-8">
+            <div className="p-8 pt-2">
               <div className="flex flex-wrap items-start gap-x-4 gap-y-1">
-                <h3 className="text-3xl sm:text-4xl font-semibold tracking-tighter text-white">{selectedApp.name}</h3>
-                <span className="mt-2 inline-block text-xs px-3 py-1 rounded-full bg-cyan-900/30 text-cyan-300 border border-cyan-800">
+                <h3 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
+                  {selectedApp.name}
+                </h3>
+                <span className="mt-2 inline-block text-xs px-3 py-1 rounded-full bg-cyan-50 text-cyan-700 border border-cyan-100 font-semibold">
                   {selectedApp.priceNo || selectedApp.price}
                 </span>
               </div>
-              <p className="text-lg text-slate-300 mt-1">{selectedApp.tagline}</p>
+              <p className="text-lg text-slate-600 mt-1">{selectedApp.tagline}</p>
               <div className="flex flex-wrap gap-2 mt-4">
-                <span className="text-xs px-3 py-1 rounded-full bg-white/5 text-slate-300 border border-white/10">{selectedApp.category}</span>
+                <span className="text-xs px-3 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                  {selectedApp.categoryNo || selectedApp.category}
+                </span>
                 {selectedApp.tags?.map((tag) => (
-                  <span key={tag} className="text-xs px-3 py-1 rounded-full bg-white/5 text-slate-400 border border-white/10">{tag}</span>
+                  <span
+                    key={tag}
+                    className="text-xs px-3 py-1 rounded-full bg-slate-50 text-slate-500 border border-slate-200"
+                  >
+                    {tag}
+                  </span>
                 ))}
               </div>
-              <p className="mt-6 text-[15px] leading-relaxed text-slate-300">
+              <p className="mt-6 text-[15px] leading-relaxed text-slate-600">
                 {selectedApp.longDescription || selectedApp.description}
               </p>
               <div className="flex flex-wrap gap-3 mt-8">
-                {selectedApp.github && (
-                  <a href={selectedApp.github} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-100 text-slate-950 font-semibold py-3 px-6 rounded-2xl transition">
-                    <Github size={18} /> GitHub
-                  </a>
-                )}
                 {selectedApp.webUrl && (
-                  <a href={selectedApp.webUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-sky-500 text-[#04101f] font-semibold py-3 px-6 rounded-2xl transition">
+                  <a
+                    href={selectedApp.webUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-sky-500 text-white font-semibold py-3 px-6 rounded-2xl transition shadow-md shadow-cyan-500/25"
+                  >
                     Åpne app <ExternalLink size={17} />
                   </a>
                 )}
-                {!selectedApp.github && !selectedApp.webUrl && (
-                  <button onClick={() => alert('Denne appen er privat. Ta kontakt for tidlig tilgang.')} className="inline-flex items-center justify-center gap-2 border border-white/15 hover:bg-white/5 py-3 px-6 rounded-2xl transition">
-                    Be om tilgang
-                  </button>
+                {selectedApp.github && (
+                  <a
+                    href={selectedApp.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 px-6 rounded-2xl transition"
+                  >
+                    <Github size={18} /> GitHub
+                  </a>
                 )}
-                <button onClick={closeModal} className="px-6 py-3 text-sm font-medium border border-white/10 hover:bg-white/5 rounded-2xl transition">
+                {!selectedApp.github && !selectedApp.webUrl && (
+                  <a
+                    href="mailto:post@kampfiskapps.com?subject=Tilgang%20til%20app"
+                    className="inline-flex items-center justify-center gap-2 border border-slate-200 hover:bg-slate-50 py-3 px-6 rounded-2xl transition font-medium text-slate-700"
+                  >
+                    Be om tilgang
+                  </a>
+                )}
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="px-6 py-3 text-sm font-medium border border-slate-200 hover:bg-slate-50 rounded-2xl transition text-slate-600"
+                >
                   Lukk
                 </button>
               </div>
               {selectedApp.downloadInstructions && (
-                <div className="mt-4 text-xs text-slate-500">{selectedApp.downloadInstructions}</div>
+                <div className="mt-5 text-xs text-slate-400 leading-relaxed">
+                  {selectedApp.downloadInstructions}
+                </div>
               )}
             </div>
           </div>
@@ -442,36 +593,57 @@ function App() {
       )}
 
       {/* Footer */}
-      <footer className="border-t border-white/5 bg-[#040910]">
+      <footer className="border-t border-slate-200 bg-white">
         <div className="max-w-7xl mx-auto px-5 sm:px-6 py-12 grid sm:grid-cols-2 lg:grid-cols-5 gap-8 text-sm">
           <div className="lg:col-span-2">
-            <BrandMark />
+            <BrandMark size="sm" />
             <p className="mt-3 text-slate-500 text-xs max-w-xs leading-relaxed">
               Premium apper og digitale produkter laget med kvalitet og omtanke.
             </p>
           </div>
           <div>
-            <div className="font-semibold text-white mb-3">Utforsk</div>
+            <div className="font-semibold text-slate-900 mb-3">Utforsk</div>
             <ul className="space-y-2 text-slate-500 text-xs">
-              <li><a href="#apps" className="hover:text-cyan-400">Apper</a></li>
-              <li><a href="#kategorier" className="hover:text-cyan-400">Kategorier</a></li>
+              <li>
+                <a href="#apps" className="hover:text-cyan-600">
+                  Apper
+                </a>
+              </li>
+              <li>
+                <a href="#kategorier" className="hover:text-cyan-600">
+                  Kategorier
+                </a>
+              </li>
             </ul>
           </div>
           <div>
-            <div className="font-semibold text-white mb-3">Kunde</div>
+            <div className="font-semibold text-slate-900 mb-3">Kunde</div>
             <ul className="space-y-2 text-slate-500 text-xs">
-              <li><a href="#hjelp" className="hover:text-cyan-400">Hjelp og støtte</a></li>
-              <li><a href="https://github.com/WKampfisk" className="hover:text-cyan-400">Kontakt oss</a></li>
+              <li>
+                <a href="#hjelp" className="hover:text-cyan-600">
+                  Hjelp og støtte
+                </a>
+              </li>
+              <li>
+                <a href="mailto:post@kampfiskapps.com" className="hover:text-cyan-600">
+                  Kontakt oss
+                </a>
+              </li>
             </ul>
           </div>
           <div>
-            <div className="font-semibold text-white mb-3">Følg oss</div>
-            <div className="flex gap-3 text-slate-500">
-              <a href="https://github.com/WKampfisk" className="hover:text-white"><Github size={18} /></a>
-            </div>
+            <div className="font-semibold text-slate-900 mb-3">Juridisk</div>
+            <ul className="space-y-2 text-slate-500 text-xs">
+              <li>
+                <span className="text-slate-400">Personvern (kommer)</span>
+              </li>
+              <li>
+                <span className="text-slate-400">Kjøpsvilkår (kommer)</span>
+              </li>
+            </ul>
           </div>
         </div>
-        <div className="border-t border-white/5 py-4 text-center text-[11px] text-slate-600">
+        <div className="border-t border-slate-100 py-4 text-center text-[11px] text-slate-400">
           © {new Date().getFullYear()} KampfiskApps. Alle rettigheter forbeholdt. · Norsk (bokmål)
         </div>
       </footer>

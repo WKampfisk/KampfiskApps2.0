@@ -1,51 +1,57 @@
-# KampfiskApps
+# KampfiskApps Marketplace
 
-**Online store and marketplace for all my apps.**
+**Oppdag. Kjøp. Bruk. Kampfisk.**
 
-A beautiful, simple web storefront showcasing the collection of apps built by Kampfisk.
+Light & Bright webstore for KampfiskApps products. Production target: **https://www.kampfiskapps.com**
 
-## Live Site (GitHub Pages)
+## Design
 
-Once deployed:
-- https://wkampfisk.github.io/KampfiskApps
+- **Theme:** Light & Bright (reference: `public/brand/layout-webstore.png`)
+- **Logo:** Betta fish (`logo1BEST.png` / `logo2BEST.png`)
+- **Stack:** Vite + React 18 + Tailwind CSS
 
-## Local Development
+## Local development
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build & Deploy
+## Production build
 
 ```bash
 npm run build
+npm run preview
 ```
 
-### GitHub Pages Deployment
+Output: `dist/` — ready for IONOS Deploy Now or any static host.
 
-1. Push the `dist/` folder or configure GitHub Pages to deploy from the `gh-pages` branch / `dist` folder.
-2. Or use the included simple workflow (add `.github/workflows/deploy.yml` if desired).
-3. For project pages, Vite is configured with `base: '/KampfiskApps/'`.
+- Default `base` is `/` (custom domain root).
+- For GitHub Pages project site: `VITE_BASE=/KampfiskApps/ npm run build`
 
-## What's Included
+## Deploy (IONOS Deploy Now)
 
-- Vite + React + Tailwind CSS
-- Responsive app grid with search + category filters
-- Detailed modal for each app
-- Seeded with real apps from the Kampfisk ecosystem + links to GitHub repos and descriptions
-- Ready for you to add real screenshots and live demo links
+1. Connect this repo in [IONOS Deploy Now](https://deploy-now.ionos.com/).
+2. Build command: `npm run build`
+3. Publish directory: `dist`
+4. Attach custom domain `www.kampfiskapps.com` (CNAME as instructed by Deploy Now).
+5. **Do not overwrite** existing MX / SPF / DKIM / DMARC for e-mail (`post@kampfiskapps.com`).
 
-## Adding / Updating Apps
+SPA rewrite: `public/.htaccess` and `public/_redirects` are copied into `dist` on build.
 
-Edit `src/data/apps.js`. Add screenshots to `public/screenshots/`.
+## Catalog
 
-## Apps in the Catalog
+Edit `src/data/apps.js`. Flagship product: **FungaDex** → `shroomfinder.kampfiskapps.com`.
 
-See the live site or `src/data/apps.js` for the current seeded list (ShroomFinder, Spot-Finder, LesePoeng, Pasientreiser, Ocean Floor AR, SeaCam, BitMiner, Treprodukter, and more).
+## Brand assets
 
-ShroomFinder is the flagship collector game: full WildDex "Collect 'Em All" (caught status, progress, badges) + AR + maps. Web (PWA) + APK available via the product page (download links in modal).
+| File | Use |
+|------|-----|
+| `logo2BEST.png` | Primary betta (hero, logo mark) |
+| `logo1BEST.png` | Alternate betta (about) |
+| `layout-webstore.png` | Design reference |
+| `favicon-betta.png` | Favicon |
 
 ---
 
-Built with ❤️ by WKampfisk / Kampfisk
+© KampfiskApps · Built by WKampfisk

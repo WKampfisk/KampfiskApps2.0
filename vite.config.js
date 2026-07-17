@@ -1,8 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
+// Production on www.kampfiskapps.com uses root base.
+// Override with VITE_BASE=/KampfiskApps/ for GitHub Pages if needed.
 export default defineConfig({
   plugins: [react()],
-  base: '/KampfiskApps/',
+  base: process.env.VITE_BASE || '/',
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+  },
 })
