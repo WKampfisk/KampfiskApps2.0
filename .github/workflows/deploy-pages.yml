@@ -31,8 +31,9 @@ jobs:
           npm ci
           npm run build
         env:
-          # Root domain / custom domain. For project pages set VITE_BASE=/KampfiskApps2.0/
-          VITE_BASE: /
+          # Project site: https://wkampfisk.github.io/KampfiskApps2.0/
+          # For apex/custom domain root later, set VITE_BASE=/
+          VITE_BASE: /KampfiskApps2.0/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
