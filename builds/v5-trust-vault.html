@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KampfiskApps • Trust Vault</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-slate-900">
+  <div class="max-w-6xl mx-auto px-8">
+    <div class="py-10 flex justify-between items-center border-b">
+      <div class="flex items-center gap-3">
+        <svg width="42" height="42" viewBox="0 0 100 60" class="text-slate-800"><path d="M12 32 Q28 12 48 26 Q68 8 82 32 Q92 26 98 38 Q88 48 78 42 Q62 54 48 38 Q28 50 12 32" fill="currentColor"/><circle cx="26" cy="29" r="5" fill="#f8fafc"/></svg>
+        <span class="font-semibold text-3xl tracking-tighter">KampfiskApps</span>
+      </div>
+      <div class="text-sm uppercase tracking-widest text-slate-400">Built to be trusted</div>
+    </div>
+
+    <div class="pt-14 pb-8 max-w-2xl">
+      <h1 class="text-6xl font-semibold tracking-tighter">Tools you can trust.<br>Design that endures.</h1>
+      <p class="mt-4 text-xl text-slate-600">Every app carries the quiet strength of the Siamese fighting fish — elegant, resilient, and made with care.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-20">
+      <!-- Trust bar -->
+      <div class="lg:col-span-12 bg-slate-50 border rounded-3xl p-8 flex flex-wrap gap-x-12 gap-y-3 text-sm">
+        <div class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-teal-600"></i> <span>Norwegian made</span></div>
+        <div>2,400+ active users</div>
+        <div>Featured in Norwegian Tech 2026</div>
+        <div>30-day satisfaction guarantee</div>
+      </div>
+
+      <div class="lg:col-span-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5" id="app-grid"></div>
+      </div>
+
+      <div class="lg:col-span-4 bg-white border rounded-3xl p-8">
+        <div class="uppercase text-xs tracking-widest text-teal-700 mb-2">Why people choose us</div>
+        <div class="space-y-6 text-sm">
+          <div>"Finally an app that feels made for humans." — Local user</div>
+          <div>"The design alone makes me want to use it every day." — Designer</div>
+          <div>"Strong, beautiful, and reliable. Like the fighting fish." — Developer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const apps = [
+      {id:1, name:"ShroomFinder", tagline:"The ultimate mushroom & plant collector", price:"Freemium", desc:"AR, maps, AI sub-agents and gamification with a strong focus on safety and education."},
+      {id:2, name:"Spot-Finder", tagline:"Local nature intelligence for Trøndelag", price:"Free", desc:"Find, rate and save the best outdoor spots around Steinkjer."},
+      {id:3, name:"LesePoeng", tagline:"Reading that earns screen time", price:"Free", desc:"Gentle, beautiful app that turns reading Norwegian stories into healthy screen time."},
+      {id:4, name:"Pasientreiser", tagline:"AI-powered patient travel refunds", price:"Free", desc:"Upload statements. AI matches everything and generates perfect refund documents."},
+      {id:5, name:"Ocean Floor AR", tagline:"Live seabed in your camera", price:"Free", desc:"Real-time AR depth visualization using your phone's sensors."},
+      {id:6, name:"SeaCam", tagline:"Advanced ocean visualization", price:"Free", desc:"GEBCO-powered AR with logs and export features."},
+      {id:7, name:"BitMiner", tagline:"Learn mining through simulation", price:"Free", desc:"Beautiful educational Proof-of-Work experience with sub-agents."},
+      {id:8, name:"Treprodukter", tagline:"Hand-tool wood product designer", price:"Contact", desc:"AI platform for beautiful, flat-pack, hand-tool only designs."}
+    ];
+
+    function render() {
+      const g = document.getElementById('app-grid');
+      g.innerHTML = apps.map(a => `
+        <div onclick="alert('${a.name}: ${a.desc}')" class="border rounded-3xl p-6 hover:border-teal-600 cursor-pointer transition">
+          <div class="flex justify-between">
+            <div class="font-semibold text-xl">${a.name}</div>
+            <div class="text-xs self-start px-3 py-1 bg-slate-100 rounded-full text-teal-700">${a.price}</div>
+          </div>
+          <div class="mt-2 text-sm text-slate-600">${a.tagline}</div>
+          <div class="text-teal-700 text-xs mt-8">View details →</div>
+        </div>
+      `).join('');
+    }
+
+    window.onload = render;
+  </script>
+</body>
+</html>

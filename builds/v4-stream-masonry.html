@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KampfiskApps • Stream Masonry</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .masonry-item { break-inside: avoid; margin-bottom: 1.25rem; transition: transform .2s ease, box-shadow .2s ease; }
+    .masonry-item:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
+  </style>
+</head>
+<body class="bg-slate-950 text-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center justify-between py-8 border-b border-white/10">
+      <div class="flex items-center gap-3">
+        <svg width="40" height="40" viewBox="0 0 100 60" class="text-white"><path d="M12 32 Q28 12 48 26 Q68 8 82 32 Q92 26 98 38 Q88 48 78 42 Q62 54 48 38 Q28 50 12 32" fill="currentColor"/><circle cx="26" cy="29" r="5" fill="#0f172a"/></svg>
+        <span class="font-semibold text-2xl">KampfiskApps</span>
+      </div>
+      <div class="text-sm text-white/50">Stream • Masonry</div>
+    </div>
+
+    <div class="pt-8 pb-6">
+      <h1 class="text-6xl font-semibold tracking-tighter">The current flows.<br>The fish fights on.</h1>
+      <p class="max-w-md mt-3 text-white/70">Dynamic, flowing layouts with the fighting fish as the beating heart of the brand.</p>
+    </div>
+
+    <div class="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-5 pb-16" id="masonry"></div>
+  </div>
+
+  <script>
+    const apps = [
+      {id:1, name:"ShroomFinder", tag:"AR + AI for every mushroom", price:"Freemium", desc:"Complete collector with scanner, maps and specialized AI.", img:"assets/bg1.jpg"},
+      {id:2, name:"Spot-Finder", tag:"Local nature intelligence", price:"Free", desc:"The best spots around Steinkjer.", img:"assets/bg2.jpg"},
+      {id:3, name:"LesePoeng", tag:"Reading earns screen time", price:"Free", desc:"Beautiful app for young readers.", img:"assets/fish1.jpg"},
+      {id:4, name:"Pasientreiser", tag:"AI travel refunds", price:"Free", desc:"Upload → done. Perfect Helfo docs.", img:"assets/bg3.jpg"},
+      {id:5, name:"Ocean Floor AR", tag:"Live seabed vision", price:"Free", desc:"Camera + sensors = beautiful depth overlays.", img:"assets/bg1.jpg"},
+      {id:6, name:"SeaCam", tag:"GEBCO ocean explorer", price:"Free", desc:"Advanced visualization + export.", img:"assets/bg2.jpg"},
+      {id:7, name:"BitMiner", tag:"Educational mining sim", price:"Free", desc:"Sub-agent PoW with live stats.", img:"assets/fish2.jpg"},
+      {id:8, name:"Treprodukter", tag:"Handmade wood design", price:"Contact", desc:"AI for beautiful flat-pack wood products.", img:"assets/bg3.jpg"}
+    ];
+
+    function renderMasonry() {
+      const container = document.getElementById('masonry');
+      container.innerHTML = '';
+      apps.forEach(app => {
+        const div = document.createElement('div');
+        div.className = `masonry-item bg-slate-900 rounded-3xl overflow-hidden border border-white/10 cursor-pointer`;
+        div.innerHTML = `
+          <div class="h-52 bg-cover" style="background-image: url('${app.img}')"></div>
+          <div class="p-6">
+            <div class="flex justify-between">
+              <div class="font-semibold text-xl">${app.name}</div>
+              <div class="text-xs px-3 py-1 self-start rounded-full bg-white/10 text-teal-400">${app.price}</div>
+            </div>
+            <div class="text-sm text-white/70 mt-2">${app.tag}</div>
+            <div class="mt-5 text-xs text-teal-400 flex items-center gap-1">Dive in <span>→</span></div>
+          </div>
+        `;
+        div.onclick = () => alert(app.name + "\\n\\n" + app.desc);
+        container.appendChild(div);
+      });
+    }
+
+    window.onload = renderMasonry;
+  </script>
+</body>
+</html>

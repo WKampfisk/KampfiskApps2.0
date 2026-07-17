@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KampfiskApps • Betta Classic</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .betta-fish { transition: transform .3s cubic-bezier(0.4,0,.2,1); }
+    .betta-fish:hover { transform: scale(1.08) rotate(3deg); }
+    .section-header { font-family: 'Playfair Display', Georgia, serif; }
+    .app-card { transition: all .2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .app-card:hover { transform: translateY(-6px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+    .fish-bg { background-image: url('assets/bg1.jpg'); background-size: cover; background-position: center; }
+    .nav-active { border-bottom: 2px solid #14b8a6; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100">
+  <!-- Navbar -->
+  <nav class="border-b border-slate-800 bg-slate-950/95 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- Siamese Fighting Fish Logo -->
+        <svg width="42" height="42" viewBox="0 0 100 60" class="betta-fish text-teal-400">
+          <defs>
+            <linearGradient id="fishGrad" x1="0%" y1="20%" x2="100%" y2="80%">
+              <stop offset="0%" stop-color="#14b8a6"/>
+              <stop offset="100%" stop-color="#0f766e"/>
+            </linearGradient>
+          </defs>
+          <path d="M12 32 Q28 12 48 26 Q68 8 82 32 Q92 26 98 38 Q88 48 78 42 Q62 54 48 38 Q28 50 12 32" fill="url(#fishGrad)"/>
+          <path d="M8 32 L2 26 L2 38 Z" fill="#f43f5e"/>
+          <circle cx="26" cy="29" r="5" fill="#0f172a"/>
+          <circle cx="28" cy="28" r="1.5" fill="#14b8a6"/>
+          <path d="M55 20 Q70 15 82 25" fill="none" stroke="#f43f5e" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <span class="font-semibold text-2xl tracking-tight">KampfiskApps</span>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-x-8 text-sm">
+        <a href="#apps" class="hover:text-teal-400 transition">Browse</a>
+        <a href="#" class="hover:text-teal-400 transition">Categories</a>
+        <a href="#" class="hover:text-teal-400 transition">For Makers</a>
+        <div class="flex items-center gap-3 pl-6 border-l border-slate-800">
+          <button onclick="showContact()" class="px-5 py-2 text-sm font-medium rounded-2xl border border-slate-700 hover:bg-slate-900 transition">Contact</button>
+          <button onclick="window.location.reload()" class="px-5 py-2 bg-white text-slate-950 font-semibold rounded-2xl hover:bg-slate-100 transition">Get the apps</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero with Fish -->
+  <div class="fish-bg h-[520px] flex items-center relative">
+    <div class="max-w-4xl mx-auto px-8 relative z-10">
+      <div class="max-w-lg">
+        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur text-white text-xs px-4 py-1 rounded-full mb-6 border border-white/20">
+          <i class="fa-solid fa-fish"></i> 
+          <span>EST. 2026 • NORWAY</span>
+        </div>
+        
+        <h1 class="text-7xl font-semibold tracking-tighter leading-none mb-4">Apps built<br>with conviction.</h1>
+        <p class="text-xl text-slate-200 mb-8">A carefully curated collection from Kampfisk. Strong, elegant, and useful — like the fighting fish itself.</p>
+        
+        <div class="flex gap-3">
+          <button onclick="document.getElementById('apps').scrollIntoView({behavior:'smooth'})" class="px-8 py-3.5 bg-white text-slate-950 font-semibold rounded-2xl flex items-center gap-2 hover:bg-amber-50 transition">
+            Explore the collection <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+          <button onclick="showContact()" class="px-7 py-3.5 border border-white/70 hover:bg-white/10 rounded-2xl font-medium transition">Talk to us</button>
+        </div>
+      </div>
+    </div>
+    <div class="absolute bottom-8 right-8 text-right text-xs opacity-60 hidden lg:block">
+      <div class="flex items-center justify-end gap-1 mb-1">
+        <i class="fa-solid fa-fish text-teal-400"></i>
+        <span>Siamese Fighting Fish</span>
+      </div>
+      <div>Betta splendens — our symbol of strength &amp; beauty</div>
+    </div>
+  </div>
+
+  <!-- Trust Bar -->
+  <div class="border-b border-slate-800 bg-slate-900">
+    <div class="max-w-7xl mx-auto px-8 py-4 flex items-center justify-between text-sm">
+      <div class="flex items-center gap-8 text-slate-400">
+        <div class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-teal-400"></i> <span>Norwegian made</span></div>
+        <div>Trusted by 2,400+ users</div>
+        <div>Featured in Norwegian Tech 2026</div>
+      </div>
+      <div class="text-emerald-400 flex items-center gap-1 text-xs font-medium"><i class="fa-solid fa-check"></i> ALL APPS REVIEWED</div>
+    </div>
+  </div>
+
+  <!-- Apps Section -->
+  <div id="apps" class="max-w-7xl mx-auto px-8 pt-12 pb-20">
+    <div class="flex justify-between items-end mb-8">
+      <div>
+        <h2 class="text-4xl font-semibold tracking-tight">The Collection</h2>
+        <p class="text-slate-400">8 apps • Curated for real life</p>
+      </div>
+      
+      <div class="flex gap-2">
+        <div class="relative">
+          <input id="search" type="text" placeholder="Search apps..." 
+                 onkeyup="filterApps()" class="bg-slate-900 border border-slate-700 focus:border-teal-600 pl-10 pr-4 py-2 rounded-2xl text-sm w-72 outline-none">
+          <i class="fa-solid fa-search absolute left-4 top-3 text-slate-500"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex gap-2 mb-6 text-sm" id="categories">
+      <button onclick="filterByCategory('All')" class="cat-btn active px-4 py-1.5 bg-teal-600 text-white rounded-2xl text-sm">All</button>
+      <button onclick="filterByCategory('Nature & AR')" class="cat-btn px-4 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-2xl text-sm">Nature &amp; AR</button>
+      <button onclick="filterByCategory('Education')" class="cat-btn px-4 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-2xl text-sm">Education</button>
+      <button onclick="filterByCategory('Productivity')" class="cat-btn px-4 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-2xl text-sm">Productivity</button>
+      <button onclick="filterByCategory('AR & Exploration')" class="cat-btn px-4 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-2xl text-sm">AR &amp; Exploration</button>
+    </div>
+
+    <div id="app-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800 py-8 text-center text-xs text-slate-500">
+    © Kampfisk 2026 • Built with the spirit of the Siamese fighting fish — graceful, powerful, unforgettable.
+  </footer>
+
+  <!-- Modal -->
+  <div id="modal" onclick="if (event.target.id === 'modal') closeModal()" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4">
+    <div onclick="event.stopImmediatePropagation()" class="bg-slate-900 rounded-3xl max-w-2xl w-full overflow-hidden border border-slate-700">
+      <div id="modal-header" class="h-56 bg-cover bg-center relative"></div>
+      <div class="p-8">
+        <div class="flex justify-between">
+          <div>
+            <h3 id="modal-name" class="text-3xl font-semibold"></h3>
+            <p id="modal-tagline" class="text-teal-300 mt-1"></p>
+          </div>
+          <div id="modal-price" class="text-right font-medium text-emerald-400 text-lg"></div>
+        </div>
+        
+        <div class="mt-6 text-slate-300 leading-relaxed" id="modal-desc"></div>
+        
+        <div class="flex gap-3 mt-8">
+          <button onclick="openGithub()" id="modal-github" class="flex-1 py-3 bg-white text-slate-900 rounded-2xl font-semibold flex justify-center items-center gap-2">
+            <i class="fa-brands fa-github"></i> <span>View on GitHub</span>
+          </button>
+          <button onclick="requestAccess()" class="flex-1 py-3 border border-slate-600 hover:bg-slate-800 rounded-2xl">Request early access</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const apps = [
+      { id:1, name:"ShroomFinder", tagline:"Pokémon Pokédex for ALL mushrooms & ethnobotanicals", category:"Nature & AR", price:"Freemium", status:"Live", desc:"Full AR scanner, map predictions, gamified WildDex and an incredible AI companion. Includes psychoactive species with strong safety focus.", github:"https://github.com/WKampfisk/ShroomFinder", image:"assets/bg1.jpg" },
+      { id:2, name:"Spot-Finder", tagline:"Discover the perfect spots around Steinkjer", category:"Nature & AR", price:"Free", status:"Live", desc:"Local knowledge base for hiking, fishing, photography and hidden gems in Trøndelag. Beautiful interactive map experience.", github:"https://github.com/WKampfisk/Spot-Finder", image:"assets/bg2.jpg" },
+      { id:3, name:"LesePoeng", tagline:"Screen time rewards for young readers", category:"Education", price:"Free", status:"Live", desc:"Earn points by reading Norwegian stories. Beautiful visual timer and healthy screen time exchange for kids.", github:null, image:"assets/fish1.jpg" },
+      { id:4, name:"Pasientreiser", tagline:"AI-powered patient travel refunds", category:"Productivity", price:"Free", status:"Live", desc:"Upload statements. Auto-match trips. Generate perfect Helfo refund documents in minutes.", github:null, image:"assets/bg3.jpg" },
+      { id:5, name:"Ocean Floor AR", tagline:"Live seabed visualization", category:"AR & Exploration", price:"Free", status:"Live", desc:"Point your camera at the sea and see real-time depth overlays using sensors and bathymetry data.", github:null, image:"assets/bg1.jpg" },
+      { id:6, name:"SeaCam", tagline:"GEBCO ocean visualization", category:"AR & Exploration", price:"Free", status:"Live", desc:"Powerful companion AR tool with export and history using public bathymetry APIs.", github:null, image:"assets/bg2.jpg" },
+      { id:7, name:"BitMiner", tagline:"Educational Bitcoin mining simulation", category:"Simulations & Tools", price:"Free", status:"Live", desc:"Fun sub-agent mining simulation with payouts. Purely educational.", github:null, image:"assets/fish2.jpg" },
+      { id:8, name:"Treprodukter", tagline:"AI platform for handmade wood design", category:"Design & Making", price:"Contact", status:"Live", desc:"Design beautiful flat-pack wood products using hand tools only. Full production plans.", github:null, image:"assets/bg3.jpg" }
+    ];
+
+    function renderApps(filtered) {
+      const grid = document.getElementById('app-grid');
+      grid.innerHTML = '';
+      
+      filtered.forEach(app => {
+        const card = document.createElement('div');
+        card.className = `app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden cursor-pointer`;
+        card.innerHTML = `
+          <div class="h-40 bg-cover bg-center relative" style="background-image: url('${app.image}')">
+            <div class="absolute top-3 right-3 px-2.5 py-px text-[10px] bg-black/70 rounded-full">${app.status}</div>
+            <div class="absolute bottom-3 left-3">
+              <span class="text-xs px-3 py-0.5 bg-white/95 text-slate-900 rounded-2xl font-medium">${app.category}</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="font-semibold text-lg tracking-tight">${app.name}</div>
+            <div class="text-sm text-slate-400 line-clamp-2 mt-1">${app.tagline}</div>
+            <div class="mt-4 flex items-center justify-between text-sm">
+              <span class="font-medium ${app.price === 'Free' ? 'text-emerald-400' : 'text-amber-400'}">${app.price}</span>
+              <span class="text-teal-400 text-xs flex items-center gap-1">Details <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+            </div>
+          </div>
+        `;
+        card.onclick = () => showModal(app);
+        grid.appendChild(card);
+      });
+    }
+
+    let currentFilter = 'All';
+
+    function filterApps() {
+      const term = document.getElementById('search').value.toLowerCase();
+      let filtered = apps;
+      
+      if (currentFilter !== 'All') {
+        filtered = filtered.filter(a => a.category === currentFilter);
+      }
+      
+      if (term) {
+        filtered = filtered.filter(a => 
+          a.name.toLowerCase().includes(term) || 
+          a.tagline.toLowerCase().includes(term) ||
+          a.desc.toLowerCase().includes(term)
+        );
+      }
+      
+      renderApps(filtered);
+    }
+
+    function filterByCategory(cat) {
+      currentFilter = cat;
+      
+      // update buttons
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.classList.remove('bg-teal-600', 'text-white');
+        btn.classList.add('bg-slate-800');
+        if ((cat === 'All' && btn.textContent === 'All') || btn.textContent.includes(cat.split(' ')[0])) {
+          btn.classList.add('bg-teal-600', 'text-white');
+          btn.classList.remove('bg-slate-800');
+        }
+      });
+      
+      const term = document.getElementById('search').value.toLowerCase();
+      let filtered = apps;
+      
+      if (cat !== 'All') filtered = filtered.filter(a => a.category === cat);
+      if (term) filtered = filtered.filter(a => a.name.toLowerCase().includes(term) || a.tagline.toLowerCase().includes(term));
+      
+      renderApps(filtered);
+    }
+
+    function showModal(app) {
+      const modal = document.getElementById('modal');
+      document.getElementById('modal-header').style.backgroundImage = `url('${app.image}')`;
+      document.getElementById('modal-name').textContent = app.name;
+      document.getElementById('modal-tagline').textContent = app.tagline;
+      document.getElementById('modal-desc').textContent = app.desc;
+      document.getElementById('modal-price').textContent = app.price;
+      
+      const ghBtn = document.getElementById('modal-github');
+      if (app.github) {
+        ghBtn.style.display = 'flex';
+        ghBtn.onclick = () => window.open(app.github, '_blank');
+      } else {
+        ghBtn.style.display = 'none';
+      }
+      
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    function openGithub() {
+      // handled in showModal
+    }
+
+    function requestAccess() {
+      alert("Thank you! We'll contact you shortly via the registered email on your IONOS account.");
+      closeModal();
+    }
+
+    function showContact() {
+      const email = "oivind.waage90@gmail.com";
+      alert(`Contact Kampfisk at ${email}\n\nDomain setup via IONOS is ready for the chosen design.`);
+    }
+
+    function init() {
+      // Tailwind script run
+      renderApps(apps);
+      
+      // Initial category active
+      document.querySelectorAll('.cat-btn')[0].classList.add('bg-teal-600', 'text-white');
+      
+      // Keyboard support
+      document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape") {
+          const modal = document.getElementById('modal');
+          if (!modal.classList.contains('hidden')) closeModal();
+        }
+      });
+      
+      // Demo: prefill a search
+      // document.getElementById('search').value = '';
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>

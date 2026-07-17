@@ -2,38 +2,50 @@
 
 **Online store and marketplace for all my apps.**
 
-A central hub showcasing, distributing, and selling the collection of apps built under the Kampfisk brand.
+A beautiful, simple web storefront showcasing the collection of apps built by Kampfisk.
 
-## About
+## Live Site (GitHub Pages)
 
-KampfiskApps brings together a variety of innovative applications — from mobile apps and web tools to AI-powered experiences and niche utilities — all in one place.
+Once deployed:
+- https://wkampfisk.github.io/KampfiskApps
 
-Whether you're looking for productivity tools, creative experiences, educational apps, or specialized utilities, you'll find them here.
+## Local Development
 
-## Apps
+```bash
+npm install
+npm run dev
+```
 
-This repository serves as the home for:
-- App listings and descriptions
-- Download / purchase links
-- Documentation and support resources
-- Marketing assets and previews
+## Build & Deploy
 
-Current apps in the ecosystem include (but are not limited to):
+```bash
+npm run build
+```
 
-- **ShroomFinder** — Pokémon Pokédex-style app for ALL mushrooms + ethnobotanical plants. Features AI AR scanner, map predictions, gamified WildDex, and more.
-- **Spot-Finder** — Local expert with knowledge of every inch of Steinkjer's surrounding nature.
-- **LesePoeng / Lesetid** — Reading and learning apps with gamification.
-- **Pasientreiser** and other specialized tools.
-- And many more Base44-powered and custom applications.
+### GitHub Pages Deployment
 
-## Development
+1. Push the `dist/` folder or configure GitHub Pages to deploy from the `gh-pages` branch / `dist` folder.
+2. Or use the included simple workflow (add `.github/workflows/deploy.yml` if desired).
+3. For project pages, Vite is configured with `base: '/KampfiskApps/'`.
 
-This repo will host the storefront / marketplace frontend (web), landing pages, and catalog data.
+## What's Included
 
-## Get Involved
+- Vite + React + Tailwind CSS
+- Responsive app grid with search + category filters
+- Detailed modal for each app
+- Seeded with real apps from the Kampfisk ecosystem + links to GitHub repos and descriptions
+- Ready for you to add real screenshots and live demo links
 
-Stay tuned as we build out the full online experience.
+## Adding / Updating Apps
+
+Edit `src/data/apps.js`. Add screenshots to `public/screenshots/`.
+
+## Apps in the Catalog
+
+See the live site or `src/data/apps.js` for the current seeded list (ShroomFinder, Spot-Finder, LesePoeng, Pasientreiser, Ocean Floor AR, SeaCam, BitMiner, Treprodukter, and more).
+
+ShroomFinder is the flagship collector game: full WildDex "Collect 'Em All" (caught status, progress, badges) + AR + maps. Web (PWA) + APK available via the product page (download links in modal).
 
 ---
 
-Built with ❤️ by Kampfisk / WKampfisk
+Built with ❤️ by WKampfisk / Kampfisk

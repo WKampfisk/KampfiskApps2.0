@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KampfiskApps • Premium Reef</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .premium-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .premium-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4); }
+    .betta-fish { filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.3)); }
+  </style>
+</head>
+<body class="bg-[#0A1628] text-white">
+  <nav class="border-b border-white/10 bg-[#0A1628]/95 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <!-- Premium Betta Logo -->
+        <svg width="48" height="48" viewBox="0 0 100 60" class="betta-fish text-teal-400">
+          <defs>
+            <linearGradient id="pFish" x1="20%" y1="10%" x2="80%" y2="90%">
+              <stop offset="0%" stop-color="#14b8a6"/>
+              <stop offset="50%" stop-color="#0f766e"/>
+              <stop offset="100%" stop-color="#134e4b"/>
+            </linearGradient>
+          </defs>
+          <path d="M10 30 Q25 8 50 24 Q72 6 88 30 Q96 24 98 36 Q88 50 75 42 Q58 58 48 36 Q26 52 10 30" fill="url(#pFish)"/>
+          <path d="M6 30 L0 22 L0 38 Z" fill="#e11d48"/>
+          <circle cx="24" cy="27" r="6" fill="#0A1628"/>
+          <circle cx="26" cy="26" r="2" fill="#14b8a6"/>
+          <path d="M52 16 Q68 12 82 22" fill="none" stroke="#f43f5e" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <span class="font-semibold text-3xl tracking-[-1.5px]">Kampfisk</span>
+          <span class="text-teal-400 font-light text-2xl">Apps</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-8 text-sm">
+        <a href="#collection" class="hover:text-teal-400 transition">The Reef</a>
+        <button onclick="document.getElementById('collection').scrollIntoView({behavior:'smooth'})" class="px-6 py-2.5 bg-white text-[#0A1628] font-semibold rounded-2xl text-sm hover:bg-white/90">Enter the collection</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dramatic Fish Hero -->
+  <div class="relative h-[520px] flex items-center" style="background-image: url('assets/bg-hero-1.jpg'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0A1628] via-[#0A1628]/70 to-transparent"></div>
+    <div class="max-w-5xl mx-auto px-8 relative z-10">
+      <div class="max-w-xl">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="px-4 py-1 text-xs tracking-widest bg-white/10 border border-white/20 rounded-full">PREMIUM COLLECTION</span>
+        </div>
+        <h1 class="text-7xl font-semibold tracking-tighter leading-[.92] mb-6">Built with the strength<br>of the fighting fish.</h1>
+        <p class="text-2xl text-white/70">Modern. Trustworthy. Unforgettable.</p>
+        <div class="mt-10 flex gap-4">
+          <button onclick="document.getElementById('collection').scrollIntoView({behavior:'smooth'})" class="px-10 py-4 bg-teal-500 hover:bg-teal-600 text-white font-semibold rounded-2xl transition">Explore the reef</button>
+          <button onclick="showContact()" class="px-8 py-4 border border-white/40 hover:bg-white/10 rounded-2xl font-medium">Contact Kampfisk</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="collection" class="max-w-7xl mx-auto px-8 pt-14 pb-20">
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <div class="uppercase tracking-[3px] text-xs text-teal-400">Curated with care</div>
+        <h2 class="text-5xl font-semibold tracking-tighter">The Premium Reef</h2>
+      </div>
+      <div class="text-sm text-white/50">8 exceptional apps</div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5" id="app-grid"></div>
+  </div>
+
+  <footer class="border-t border-white/10 py-10 text-center text-xs text-white/50">
+    © Kampfisk • All designs inspired by the Siamese fighting fish — graceful power, striking presence.
+  </footer>
+
+  <!-- Modal -->
+  <div id="modal" onclick="if (event.target.id === 'modal') closeModal()" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center p-6 z-[100]">
+    <div onclick="event.stopImmediatePropagation()" class="bg-[#0A1628] border border-white/20 max-w-lg w-full rounded-3xl overflow-hidden">
+      <div id="modal-hero" class="h-64 bg-cover bg-center relative"></div>
+      <div class="p-8">
+        <div class="flex items-start justify-between">
+          <div>
+            <div id="modal-name" class="text-4xl font-semibold tracking-tight"></div>
+            <div id="modal-tagline" class="text-teal-400 mt-1"></div>
+          </div>
+          <div id="modal-price" class="font-semibold text-xl text-emerald-400"></div>
+        </div>
+        <div id="modal-desc" class="mt-7 leading-relaxed text-white/80"></div>
+        
+        <div class="flex gap-3 mt-8">
+          <button onclick="closeModal()" class="flex-1 py-3 rounded-2xl border border-white/30 hover:bg-white/5">Close</button>
+          <button onclick="claimApp()" class="flex-1 py-3 bg-white text-[#0A1628] font-semibold rounded-2xl">Get this app</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const apps = [
+      { id: 1, name: "ShroomFinder", tagline: "Pokémon-style for every mushroom & plant", price: "Freemium", desc: "AR scanner, predictive maps, gamified WildDex, and a powerful AI companion with rapid sub-agents. Safety and education first.", image: "assets/bg-hero-1.jpg", github: "https://github.com/WKampfisk/ShroomFinder" },
+      { id: 2, name: "Spot-Finder", tagline: "Your local guide to Steinkjer nature", price: "Free", desc: "Discover, rate and save the best hiking, fishing, photography and hidden spots around Steinkjer and Trøndelag.", image: "assets/bg-hero-2.jpg", github: "https://github.com/WKampfisk/Spot-Finder" },
+      { id: 3, name: "LesePoeng", tagline: "Reading that earns screen time", price: "Free", desc: "A beautiful Norwegian app for children. Earn points from reading real stories and redeem them with an elegant visual timer.", image: "assets/fish1.jpg", github: null },
+      { id: 4, name: "Pasientreiser", tagline: "AI-powered patient travel refunds", price: "Free", desc: "Upload bank statements. AI matches trips and generates perfect Helfo refund applications with full documentation.", image: "assets/bg1.jpg", github: null },
+      { id: 5, name: "Ocean Floor AR", tagline: "Live seabed visualization", price: "Free", desc: "Point your camera at the ocean and see real-time depth heatmaps and contours using GPS, compass and sensors.", image: "assets/bg-hero-1.jpg", github: null },
+      { id: 6, name: "SeaCam", tagline: "GEBCO ocean explorer", price: "Free", desc: "Advanced real-time ocean floor AR with history, CSV export and beautiful sensor-aligned overlays.", image: "assets/bg-hero-2.jpg", github: null },
+      { id: 7, name: "BitMiner", tagline: "Educational mining simulation", price: "Free", desc: "Beautiful Proof-of-Work simulation with sub-agent workers, live stats and simulated Revolut payouts. Purely educational.", image: "assets/fish2.jpg", github: null },
+      { id: 8, name: "Treprodukter", tagline: "Handmade wood design platform", price: "Contact", desc: "AI co-pilot for creating beautiful, flat-pack, hand-tool-only wood and plate products with full production plans.", image: "assets/bg1.jpg", github: null }
+    ];
+
+    function renderApps() {
+      const grid = document.getElementById('app-grid');
+      grid.innerHTML = apps.map(app => `
+        <div onclick="showModal(${app.id})" class="premium-card group bg-white/5 border border-white/10 hover:border-teal-500/40 rounded-3xl overflow-hidden cursor-pointer">
+          <div class="h-48 bg-cover bg-center relative" style="background-image: url('${app.image}')">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/10 to-black/40"></div>
+            <div class="absolute top-4 right-4 px-3 py-0.5 text-xs bg-black/60 rounded-full backdrop-blur">${app.price}</div>
+          </div>
+          <div class="p-6">
+            <div class="font-semibold text-2xl tracking-tight group-hover:text-teal-400 transition">${app.name}</div>
+            <div class="text-sm text-white/70 mt-2 line-clamp-2">${app.tagline}</div>
+            <div class="mt-6 flex justify-between items-center text-xs">
+              <span class="text-teal-400">View details</span>
+              <i class="fa-solid fa-arrow-right text-teal-400 group-hover:translate-x-1 transition"></i>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    let currentApp = null;
+
+    function showModal(id) {
+      currentApp = apps.find(a => a.id === id);
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+      
+      document.getElementById('modal-hero').style.backgroundImage = `url('${currentApp.image}')`;
+      document.getElementById('modal-name').textContent = currentApp.name;
+      document.getElementById('modal-tagline').textContent = currentApp.tagline;
+      document.getElementById('modal-desc').textContent = currentApp.desc;
+      document.getElementById('modal-price').textContent = currentApp.price;
+    }
+
+    function closeModal() {
+      const m = document.getElementById('modal');
+      m.classList.remove('flex');
+      m.classList.add('hidden');
+    }
+
+    function claimApp() {
+      if (currentApp.github) {
+        window.open(currentApp.github, '_blank');
+      } else {
+        alert("This app is available through our private channels. We'll contact you via IONOS email.");
+      }
+      closeModal();
+    }
+
+    function showContact() {
+      alert("Contact: oivind.waage90@gmail.com\n\nIONOS domain ready for the chosen design.");
+    }
+
+    function init() {
+      renderApps();
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>

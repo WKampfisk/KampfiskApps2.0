@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KampfiskApps • Aqua Minimal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .minimal-card { transition: box-shadow .2s ease; }
+    .minimal-card:hover { box-shadow: 0 10px 15px -3px rgb(15 23 42 / 0.1); }
+    .fish-watermark { opacity: 0.06; pointer-events: none; }
+    .fish-svg { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+  </style>
+</head>
+<body class="bg-white text-slate-900">
+  <div class="max-w-5xl mx-auto px-8">
+    <!-- Minimal Nav -->
+    <div class="flex justify-between items-center py-10">
+      <div class="flex items-center gap-3">
+        <svg width="36" height="36" viewBox="0 0 100 60" class="fish-svg text-teal-700">
+          <path d="M12 32 Q28 12 48 26 Q68 8 82 32 Q92 26 98 38 Q88 48 78 42 Q62 54 48 38 Q28 50 12 32" fill="currentColor"/>
+          <circle cx="26" cy="29" r="5" fill="#0f172a"/>
+          <path d="M8 32 L2 26 L2 38 Z" fill="#e11d48"/>
+        </svg>
+        <span class="font-semibold text-2xl tracking-[-1px]">kampfiskapps</span>
+      </div>
+      <div class="flex items-center gap-6 text-sm">
+        <a href="#collection" class="text-slate-500 hover:text-slate-900">Collection</a>
+        <a href="#" class="text-slate-500 hover:text-slate-900">Journal</a>
+        <button onclick="window.open('https://github.com/WKampfisk/KampfiskApps','_blank')" class="text-sm px-4 py-2 border border-slate-200 hover:border-slate-900 rounded-2xl">GitHub</button>
+      </div>
+    </div>
+
+    <!-- Light Hero -->
+    <div class="py-12 text-center border-b border-slate-100">
+      <div class="max-w-md mx-auto">
+        <div class="mb-6 flex justify-center">
+          <svg width="92" height="56" viewBox="0 0 100 60" class="fish-svg text-teal-700">
+            <path d="M12 32 Q28 12 48 26 Q68 8 82 32 Q92 26 98 38 Q88 48 78 42 Q62 54 48 38 Q28 50 12 32" fill="currentColor"/>
+            <circle cx="26" cy="29" r="5" fill="#0f172a"/>
+          </svg>
+        </div>
+        <h1 class="text-6xl font-semibold tracking-tighter mb-3">Simple tools.<br>Thoughtfully made.</h1>
+        <p class="text-slate-500">A quiet collection of useful apps by Kampfisk.<br>Designed to last.</p>
+      </div>
+    </div>
+
+    <div id="collection" class="pt-12 pb-20">
+      <div class="flex items-center justify-between mb-8">
+        <div class="text-sm text-slate-500">8 applications</div>
+        <input id="search" onkeyup="filterApps()" placeholder="Search..." class="border border-slate-200 focus:border-teal-600 outline-none px-5 py-2 rounded-3xl text-sm w-80">
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12" id="app-grid">
+        <!-- JS populated -->
+      </div>
+    </div>
+  </div>
+
+  <footer class="border-t border-slate-100 py-8 text-xs text-center text-slate-400">© Kampfisk • Made in Norway with the fighting fish as our symbol of quiet strength.</footer>
+
+  <!-- Modal -->
+  <div id="modal" onclick="if(event.target.id==='modal') closeModal()" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-6">
+    <div onclick="event.stopImmediatePropagation()" class="bg-white rounded-3xl max-w-lg w-full shadow-xl overflow-hidden border">
+      <div class="p-8">
+        <div class="flex justify-between items-start">
+          <div>
+            <div id="modal-name" class="font-semibold text-3xl tracking-tight"></div>
+            <div id="modal-tagline" class="text-teal-700 mt-1"></div>
+          </div>
+          <div id="modal-price" class="font-semibold text-emerald-600"></div>
+        </div>
+        
+        <div id="modal-desc" class="mt-7 text-[15px] leading-relaxed text-slate-600"></div>
+        
+        <div class="mt-8 flex gap-3">
+          <button onclick="closeModal()" class="flex-1 py-3 border border-slate-200 text-sm font-medium rounded-2xl">Close</button>
+          <button onclick="requestAccess()" class="flex-1 py-3 bg-slate-900 text-white text-sm font-medium rounded-2xl">Request access</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const apps = [
+      {id:1,name:"ShroomFinder",tagline:"The complete mushroom & ethnobotanical companion",category:"Nature & AR",price:"Freemium",desc:"AR identification, gamified collection, powerful AI research agents and a beautiful map. Safety-first design.",image:"assets/bg1.jpg",github:"https://github.com/WKampfisk/ShroomFinder"},
+      {id:2,name:"Spot-Finder",tagline:"Your personal guide to Steinkjer nature",category:"Nature & AR",price:"Free",desc:"Find, save and rate the best local spots. Built specifically for the beautiful region around Steinkjer.",image:"assets/bg2.jpg",github:"https://github.com/WKampfisk/Spot-Finder"},
+      {id:3,name:"LesePoeng",tagline:"Reading that earns screen time",category:"Education",price:"Free",desc:"A gentle Norwegian app for children. Earn points from reading and exchange them for timer-controlled screen time.",image:"assets/fish1.jpg",github:null},
+      {id:4,name:"Pasientreiser",tagline:"Effortless patient travel reimbursements",category:"Productivity",price:"Free",desc:"Upload your statements. Let AI match everything and generate perfect refund applications.",image:"assets/bg3.jpg",github:null},
+      {id:5,name:"Ocean Floor AR",tagline:"See the sea floor in real time",category:"AR & Exploration",price:"Free",desc:"Augmented reality depth visualization using your phone camera and sensors.",image:"assets/bg1.jpg",github:null},
+      {id:6,name:"SeaCam",tagline:"GEBCO-powered ocean visualization",category:"AR & Exploration",price:"Free",desc:"Beautiful real-time ocean floor overlays with exportable logs.",image:"assets/bg2.jpg",github:null},
+      {id:7,name:"BitMiner",tagline:"Learn Bitcoin mining — the fun way",category:"Simulations & Tools",price:"Free",desc:"A beautiful educational simulation of mining with sub-agents and simulated payouts.",image:"assets/fish2.jpg",github:null},
+      {id:8,name:"Treprodukter",tagline:"Design beautiful wood products by hand",category:"Design & Making",price:"Contact",desc:"AI-assisted design for flat-pack, hand-tool only wooden objects and furniture.",image:"assets/bg3.jpg",github:null}
+    ];
+
+    function renderApps(list) {
+      const container = document.getElementById('app-grid');
+      container.innerHTML = '';
+      list.forEach(app => {
+        const el = document.createElement('div');
+        el.className = `minimal-card border border-slate-100 rounded-3xl p-6 cursor-pointer group`;
+        el.innerHTML = `
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="font-semibold text-xl group-hover:text-teal-700">${app.name}</div>
+              <div class="text-sm text-slate-500 mt-1 pr-4">${app.tagline}</div>
+            </div>
+            <div class="text-right">
+              <div class="text-emerald-700 text-sm font-medium">${app.price}</div>
+              <div class="text-[10px] text-slate-400 mt-px">${app.category}</div>
+            </div>
+          </div>
+          <div class="mt-8 text-xs text-teal-700 flex items-center gap-1 group-hover:gap-2 transition-all">Learn more <i class="fa-solid fa-arrow-right"></i></div>
+        `;
+        el.onclick = () => showModal(app);
+        container.appendChild(el);
+      });
+    }
+
+    function filterApps() {
+      const q = document.getElementById('search').value.toLowerCase();
+      const filtered = apps.filter(a => a.name.toLowerCase().includes(q) || a.tagline.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q));
+      renderApps(filtered);
+    }
+
+    function showModal(app) {
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+      document.getElementById('modal-name').innerText = app.name;
+      document.getElementById('modal-tagline').innerText = app.tagline;
+      document.getElementById('modal-desc').innerText = app.desc;
+      document.getElementById('modal-price').innerText = app.price;
+    }
+
+    function closeModal() {
+      const m = document.getElementById('modal');
+      m.classList.remove('flex');
+      m.classList.add('hidden');
+    }
+
+    function requestAccess() {
+      alert("Thanks! We'll reach out using your IONOS registered details.");
+      closeModal();
+    }
+
+    function init() {
+      renderApps(apps);
+    }
+    window.onload = init;
+  </script>
+</body>
+</html>
