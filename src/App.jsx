@@ -546,14 +546,37 @@ function App() {
                 {selectedApp.longDescription || selectedApp.description}
               </p>
               <div className="flex flex-wrap gap-3 mt-8">
-                {selectedApp.webUrl && (
+                {(selectedApp.purchaseUrl || selectedApp.webUrl) && (
                   <a
-                    href={selectedApp.webUrl}
+                    href={selectedApp.purchaseUrl || selectedApp.webUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-sky-500 text-white font-semibold py-3 px-6 rounded-2xl transition shadow-md shadow-cyan-500/25"
                   >
-                    Åpne app <ExternalLink size={17} />
+                    {selectedApp.ctaLabel || (selectedApp.purchaseUrl ? 'Kjøp / åpne app' : 'Åpne app')}{' '}
+                    <ExternalLink size={17} />
+                  </a>
+                )}
+                {selectedApp.webUrl &&
+                  selectedApp.purchaseUrl &&
+                  selectedApp.purchaseUrl !== selectedApp.webUrl && (
+                    <a
+                      href={selectedApp.webUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center justify-center gap-2 border border-cyan-200 bg-cyan-50 hover:bg-cyan-100 text-cyan-800 font-semibold py-3 px-6 rounded-2xl transition"
+                    >
+                      Åpne gratis <ExternalLink size={17} />
+                    </a>
+                  )}
+                {selectedApp.apkUrl && (
+                  <a
+                    href={selectedApp.apkUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-6 rounded-2xl transition"
+                  >
+                    <Download size={18} /> Last ned APK
                   </a>
                 )}
                 {selectedApp.github && (
@@ -566,12 +589,14 @@ function App() {
                     <Github size={18} /> GitHub
                   </a>
                 )}
-                {!selectedApp.github && !selectedApp.webUrl && (
+                {!selectedApp.github && !selectedApp.webUrl && !selectedApp.purchaseUrl && (
                   <a
-                    href="mailto:post@kampfiskapps.com?subject=Tilgang%20til%20app"
+                    href={`mailto:post@kampfiskapps.com?subject=${encodeURIComponent(
+                      `Tilgang til ${selectedApp.name}`,
+                    )}`}
                     className="inline-flex items-center justify-center gap-2 border border-slate-200 hover:bg-slate-50 py-3 px-6 rounded-2xl transition font-medium text-slate-700"
                   >
-                    Be om tilgang
+                    {selectedApp.ctaLabel || 'Be om tilgang'}
                   </a>
                 )}
                 <button

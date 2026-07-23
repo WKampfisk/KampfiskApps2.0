@@ -41,7 +41,11 @@ SPA rewrite: `public/.htaccess` and `public/_redirects` are copied into `dist` o
 
 ## Catalog
 
-Edit `src/data/apps.js`. Flagship product: **FungaDex** → `shroomfinder.kampfiskapps.com`.
+Edit `src/data/apps.js`. Live Base44 apps open/buy from the storefront modal.
+
+Flagship: **FungaDex** → `https://rare-wild-fungi-find.base44.app`
+
+See **[GO-LIVE.md](./GO-LIVE.md)** for IONOS DNS + GitHub Pages HTTPS + Base44 publish steps.
 
 ## Brand assets
 
