@@ -545,6 +545,35 @@ function App() {
               <p className="mt-6 text-[15px] leading-relaxed text-slate-600">
                 {selectedApp.longDescription || selectedApp.description}
               </p>
+              {selectedApp.plans?.length > 0 && (
+                <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <div className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-3">
+                    {selectedApp.stripeEnabled ? 'Stripe-abonnement' : 'Planer'}
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {selectedApp.plans.map((plan) => (
+                      <a
+                        key={plan.id}
+                        href={plan.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex flex-col gap-1 rounded-xl border border-white bg-white px-4 py-3 shadow-sm hover:border-cyan-300 hover:shadow transition"
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="font-semibold text-slate-900">{plan.label}</span>
+                          <span className="text-sm font-bold text-cyan-600">{plan.priceNo}</span>
+                        </div>
+                        {plan.note && (
+                          <span className="text-xs text-slate-500">{plan.note}</span>
+                        )}
+                        <span className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-cyan-700">
+                          Gå til betaling <ExternalLink size={12} />
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
               <div className="flex flex-wrap gap-3 mt-8">
                 {(selectedApp.purchaseUrl || selectedApp.webUrl) && (
                   <a
