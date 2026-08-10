@@ -57,6 +57,8 @@ function App() {
   const [sortMode, setSortMode] = useState('featured')
   const [mobileNav, setMobileNav] = useState(false)
 
+  const liveCount = useMemo(() => apps.filter((a) => a.status === 'Live').length, [])
+
   const filteredApps = useMemo(() => {
     let result = [...apps]
     if (searchTerm.trim()) {
@@ -72,12 +74,30 @@ function App() {
     if (activeCategory !== 'All') {
       result = result.filter((app) => app.category === activeCategory)
     }
-    if (sortMode === 'name') result.sort((a, b) => a.name.localeCompare(b.name, 'nb'))
-    else if (sortMode === 'category') result.sort((a, b) => a.category.localeCompare(b.category))
+    if (sortMode === 'name') {
+      result.sort((a, b) => a.name.localeCompare(b.name, 'nb'))
+    } else if (sortMode === 'category') {
+      result.sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name, 'nb'))
+    } else {
+      // featured: Live first, then flagged featured, then name
+      const rank = (a) =>
+        (a.status === 'Live' ? 0 : 1) * 10 + (a.featured ? 0 : 1)
+      result.sort(
+        (a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name, 'nb'),
+      )
+    }
     return result
   }, [searchTerm, activeCategory, sortMode])
 
-  const featured = apps.slice(0, 4)
+  const featured = useMemo(
+    () => apps.filter((a) => a.featured).slice(0, 4),
+    [],
+  )
+
+  const statusClass = (status) =>
+    status === 'Live'
+      ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+      : 'bg-amber-50 text-amber-700 border-amber-200'
 
   const openApp = (app) => {
     setSelectedApp(app)
@@ -131,17 +151,19 @@ function App() {
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               type="button"
+              onClick={() => scrollTo('apps')}
               className="p-2.5 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition"
-              aria-label="Handlekurv"
+              aria-label="Gå til apper"
+              title="Apper"
             >
               <ShoppingCart size={18} />
             </button>
-            <button
-              type="button"
+            <a
+              href="mailto:post@kampfiskapps.com?subject=KampfiskApps"
               className="bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 text-white font-semibold text-sm px-4 py-2 rounded-xl transition shadow-md shadow-cyan-500/20"
             >
-              Logg inn
-            </button>
+              Kontakt
+            </a>
             <span className="hidden sm:inline text-base" title="Norsk">
               🇳🇴
             </span>
@@ -180,13 +202,17 @@ function App() {
         <div className="absolute inset-0 hero-light pointer-events-none" />
         <div className="max-w-7xl mx-auto px-5 sm:px-6 pt-12 sm:pt-16 pb-14 sm:pb-20 grid lg:grid-cols-2 gap-10 items-center relative">
           <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-100 bg-white/80 px-3 py-1 text-xs font-semibold text-cyan-700 shadow-sm mb-4">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              {liveCount} apper live nå
+            </div>
             <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-tight leading-[1.08] text-slate-900">
               Oppdag. Kjøp.
               <br />
               Bruk. <span className="text-rose-500">Kampfisk.</span>
             </h1>
             <p className="mt-5 text-lg text-slate-500 max-w-md leading-relaxed">
-              Kvalitetsapper og digitale produkter laget for deg.
+              Kvalitetsapper og digitale produkter laget for deg — FungaDex, FitFam, Lesetid og mer.
             </p>
 
             <div className="mt-7 relative max-w-lg">
@@ -275,10 +301,15 @@ function App() {
               </div>
               <div className="font-semibold text-slate-900 group-hover:text-cyan-700 transition">{app.name}</div>
               <div className="text-xs text-slate-500 mt-1 line-clamp-1">{app.categoryNo || app.category}</div>
-              <div className="flex items-center gap-1.5 mt-3 text-xs text-amber-500">
-                <Star size={12} fill="currentColor" />
-                <span className="font-medium text-slate-700">{app.rating || '4.6'}</span>
-                <span className="text-slate-400">({app.reviews || 24})</span>
+              <div className="flex items-center justify-between mt-3 gap-2">
+                <div className="flex items-center gap-1.5 text-xs text-amber-500">
+                  <Star size={12} fill="currentColor" />
+                  <span className="font-medium text-slate-700">{app.rating || '4.6'}</span>
+                  <span className="text-slate-400">({app.reviews || 24})</span>
+                </div>
+                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${statusClass(app.status)}`}>
+                  {app.status}
+                </span>
               </div>
               <div className="mt-3 text-sm font-semibold text-slate-900">{app.priceNo || app.price}</div>
             </button>
@@ -291,13 +322,13 @@ function App() {
         <div className="flex items-end justify-between mb-6">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Kategorier</h2>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3 mb-6">
           {categoryTiles.map((tile) => {
             const Icon = TILE_ICONS[tile.icon] || LayoutGrid
             const active = activeCategory === tile.id
             return (
               <button
-                key={tile.label}
+                key={tile.id + tile.label}
                 type="button"
                 onClick={() => {
                   setActiveCategory(tile.id)
@@ -400,7 +431,9 @@ function App() {
                     }}
                   />
                   <div className="absolute top-3 right-3">
-                    <span className="bg-white/95 text-slate-700 text-[10px] font-semibold px-2.5 py-0.5 rounded-full shadow-sm border border-slate-100">
+                    <span
+                      className={`text-[10px] font-semibold px-2.5 py-0.5 rounded-full shadow-sm border ${statusClass(app.status)}`}
+                    >
                       {app.status}
                     </span>
                   </div>
