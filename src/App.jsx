@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from 'react'
 import {
-  Search, X, ExternalLink, Github, Star, ArrowRight,
-  Shield, Download, HeartHandshake, BadgeCheck, ShoppingCart,
-  Rocket, Wrench, Heart, Gamepad2, BookOpen, LayoutGrid,
+  Search, X, ExternalLink, Github, ArrowRight,
+  Shield, Download, HeartHandshake, BadgeCheck,
+  Rocket, Wrench, Heart, BookOpen, LayoutGrid, Compass,
+  Briefcase, FileCheck2,
 } from 'lucide-react'
 import { apps, categories, categoryTiles } from './data/apps'
 
@@ -15,19 +16,27 @@ const NAV = [
 ]
 
 const TRUST = [
-  { icon: Shield, title: 'Trygg handel', sub: 'Sikker betaling med Stripe' },
-  { icon: Download, title: 'Direkte levering', sub: 'Last ned umiddelbart' },
-  { icon: HeartHandshake, title: 'Kundetilfredshet', sub: 'Vi er her for å hjelpe' },
-  { icon: BadgeCheck, title: 'Høy kvalitet', sub: 'Kun utvalgte apper' },
+  { icon: Shield, title: 'Kontrollert utvalg', sub: 'Kun gjenværende favorittprosjekter' },
+  { icon: BadgeCheck, title: 'Tydelig status', sub: 'Live, beta eller under utvikling' },
+  { icon: ExternalLink, title: 'Verifiserte lenker', sub: 'Bare bekreftede offentlige mål' },
+  { icon: HeartHandshake, title: 'Bygget med omtanke', sub: 'Verktøy for ekte behov' },
 ]
 
 const TILE_ICONS = {
   Rocket,
   Wrench,
   Heart,
-  Gamepad2,
   BookOpen,
   LayoutGrid,
+  Compass,
+  Briefcase,
+  FileCheck2,
+}
+
+const statusTone = (status) => {
+  if (status === 'Live') return 'bg-emerald-50 text-emerald-700 border-emerald-200'
+  if (status === 'Åpen beta') return 'bg-violet-50 text-violet-700 border-violet-200'
+  return 'bg-amber-50 text-amber-700 border-amber-200'
 }
 
 function BrandMark({ size = 'md' }) {
@@ -77,7 +86,7 @@ function App() {
     return result
   }, [searchTerm, activeCategory, sortMode])
 
-  const featured = apps.slice(0, 4)
+  const featured = apps.filter((app) => app.featured).slice(0, 4)
 
   const openApp = (app) => {
     setSelectedApp(app)
@@ -129,22 +138,15 @@ function App() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <button
-              type="button"
-              className="p-2.5 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition"
-              aria-label="Handlekurv"
-            >
-              <ShoppingCart size={18} />
-            </button>
-            <button
-              type="button"
+            <span className="hidden lg:inline-flex items-center rounded-full border border-cyan-100 bg-cyan-50 px-3 py-1.5 text-xs font-semibold text-cyan-700">
+              {apps.length} Base44-favoritter
+            </span>
+            <a
+              href="mailto:post@kampfiskapps.com"
               className="bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 text-white font-semibold text-sm px-4 py-2 rounded-xl transition shadow-md shadow-cyan-500/20"
             >
-              Logg inn
-            </button>
-            <span className="hidden sm:inline text-base" title="Norsk">
-              🇳🇴
-            </span>
+              Kontakt
+            </a>
             <button
               type="button"
               className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100"
@@ -175,18 +177,22 @@ function App() {
         )}
       </nav>
 
-      {/* Hero — Light & Bright */}
+      {/* Hero */}
       <section className="relative overflow-hidden border-b border-slate-100">
         <div className="absolute inset-0 hero-light pointer-events-none" />
         <div className="max-w-7xl mx-auto px-5 sm:px-6 pt-12 sm:pt-16 pb-14 sm:pb-20 grid lg:grid-cols-2 gap-10 items-center relative">
           <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-200 bg-white/80 px-3 py-1.5 text-xs font-semibold text-cyan-700 shadow-sm">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              Oppdatert fra Base44 · {apps.length} favorittapper
+            </div>
             <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-tight leading-[1.08] text-slate-900">
-              Oppdag. Kjøp.
+              Smarte apper.
               <br />
-              Bruk. <span className="text-rose-500">Kampfisk.</span>
+              <span className="text-rose-500">Ekte nytte.</span>
             </h1>
             <p className="mt-5 text-lg text-slate-500 max-w-md leading-relaxed">
-              Kvalitetsapper og digitale produkter laget for deg.
+              Utvalgte verktøy for arbeid, læring, helse og hverdagsflyt – samlet på ett sted.
             </p>
 
             <div className="mt-7 relative max-w-lg">
@@ -207,26 +213,32 @@ function App() {
                 onClick={() => scrollTo('apps')}
                 className="bg-gradient-to-r from-rose-500 to-orange-400 hover:from-rose-400 hover:to-orange-300 text-white font-semibold px-6 py-3 rounded-xl transition shadow-lg shadow-rose-500/25"
               >
-                Utforsk apper
+                Se appene
               </button>
               <button
                 type="button"
                 onClick={() => scrollTo('kategorier')}
                 className="border-2 border-cyan-400 text-cyan-600 hover:bg-cyan-50 font-semibold px-6 py-3 rounded-xl transition bg-white"
               >
-                Se kategorier
+                Utforsk kategorier
               </button>
             </div>
           </div>
 
           <div className="relative flex justify-center lg:justify-end">
             <div className="absolute w-[65%] h-[65%] rounded-full bg-cyan-200/40 blur-3xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-            <img
-              src="/brand/logo2BEST.png"
-              alt="Kampfisk — betta mascot"
-              className="relative z-10 w-full max-w-xl object-contain drop-shadow-2xl select-none"
-              draggable={false}
-            />
+            <div className="relative z-10 w-full max-w-xl overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-950 shadow-2xl shadow-cyan-900/15">
+              <img
+                src="/apps/marketforge.webp"
+                alt="Digital kampfisk i blått og gyllent lys"
+                className="aspect-video w-full object-cover select-none"
+                draggable={false}
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent p-5 pt-14 text-white">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">KampfiskApps</div>
+                <div className="mt-1 text-sm text-white/80">Én unik visuell identitet for hver app.</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -266,21 +278,26 @@ function App() {
               key={app.id}
               type="button"
               onClick={() => openApp(app)}
-              className="text-left group rounded-2xl border border-slate-200 bg-white hover:border-cyan-300 p-5 transition shadow-sm hover:shadow-md"
+              className="text-left group overflow-hidden rounded-2xl border border-slate-200 bg-white hover:border-cyan-300 transition shadow-sm hover:shadow-md"
             >
-              <div
-                className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${app.iconTone || 'from-cyan-400 to-sky-500'} flex items-center justify-center text-sm font-bold text-white mb-4 shadow-sm`}
-              >
-                {app.iconLabel || app.name.slice(0, 2).toUpperCase()}
+              <div className="relative aspect-video overflow-hidden bg-slate-950">
+                <img
+                  src={app.image}
+                  alt=""
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <span className={`absolute right-3 top-3 rounded-full border px-2.5 py-1 text-[10px] font-semibold shadow-sm ${statusTone(app.status)}`}>
+                  {app.status}
+                </span>
               </div>
-              <div className="font-semibold text-slate-900 group-hover:text-cyan-700 transition">{app.name}</div>
-              <div className="text-xs text-slate-500 mt-1 line-clamp-1">{app.categoryNo || app.category}</div>
-              <div className="flex items-center gap-1.5 mt-3 text-xs text-amber-500">
-                <Star size={12} fill="currentColor" />
-                <span className="font-medium text-slate-700">{app.rating || '4.6'}</span>
-                <span className="text-slate-400">({app.reviews || 24})</span>
+              <div className="p-4">
+                <div className="font-semibold text-slate-900 group-hover:text-cyan-700 transition">{app.name}</div>
+                <div className="text-xs text-slate-500 mt-1 line-clamp-1">{app.tagline}</div>
+                <div className="mt-3 flex items-center justify-between gap-3 text-xs">
+                  <span className="text-slate-500">{app.categoryNo || app.category}</span>
+                  <span className="font-semibold text-cyan-700">{app.priceNo || app.price}</span>
+                </div>
               </div>
-              <div className="mt-3 text-sm font-semibold text-slate-900">{app.priceNo || app.price}</div>
             </button>
           ))}
         </div>
@@ -291,7 +308,7 @@ function App() {
         <div className="flex items-end justify-between mb-6">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Kategorier</h2>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 mb-6">
           {categoryTiles.map((tile) => {
             const Icon = TILE_ICONS[tile.icon] || LayoutGrid
             const active = activeCategory === tile.id
@@ -341,7 +358,9 @@ function App() {
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-8">
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Alle apper</h2>
-            <p className="text-slate-500 mt-1 text-sm">Oppdag verktøy bygget for ekte behov</p>
+            <p className="text-slate-500 mt-1 text-sm">
+              {apps.length} gjenværende Base44-favoritter – interne agenter og testprosjekter vises ikke.
+            </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
             <div className="relative flex-1 sm:w-72">
@@ -400,7 +419,7 @@ function App() {
                     }}
                   />
                   <div className="absolute top-3 right-3">
-                    <span className="bg-white/95 text-slate-700 text-[10px] font-semibold px-2.5 py-0.5 rounded-full shadow-sm border border-slate-100">
+                    <span className={`text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm border ${statusTone(app.status)}`}>
                       {app.status}
                     </span>
                   </div>
@@ -448,9 +467,9 @@ function App() {
           <div>
             <h2 className="text-2xl font-bold text-slate-900 mb-3">Om KampfiskApps</h2>
             <p className="text-slate-500 leading-relaxed text-sm">
-              Premium apper og digitale produkter laget med kvalitet og omtanke. Fra naturutforskning
-              med FungaDex til læringsverktøy og produktivitet — alt bygget for ekte bruk i Norge og
-              verden.
+              En kuratert samling Base44-apper laget i Norge med kvalitet og omtanke. Katalogen følger
+              den gjenværende favorittlisten og viser tydelig hvilke apper som er live, i åpen beta
+              eller fortsatt under utvikling.
             </p>
             <p className="text-slate-400 text-xs mt-4">
               Kontakt: post@kampfiskapps.com
@@ -530,6 +549,9 @@ function App() {
               </div>
               <p className="text-lg text-slate-600 mt-1">{selectedApp.tagline}</p>
               <div className="flex flex-wrap gap-2 mt-4">
+                <span className={`text-xs px-3 py-1 rounded-full border font-semibold ${statusTone(selectedApp.status)}`}>
+                  {selectedApp.status}
+                </span>
                 <span className="text-xs px-3 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
                   {selectedApp.categoryNo || selectedApp.category}
                 </span>
@@ -652,7 +674,7 @@ function App() {
           <div className="lg:col-span-2">
             <BrandMark size="sm" />
             <p className="mt-3 text-slate-500 text-xs max-w-xs leading-relaxed">
-              Premium apper og digitale produkter laget med kvalitet og omtanke.
+              Utvalgte Base44-apper med tydelig status, verifiserte lenker og en egen visuell identitet.
             </p>
           </div>
           <div>
