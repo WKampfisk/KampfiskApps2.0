@@ -186,12 +186,21 @@ function App() {
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
               Oppdatert fra Base44 · {apps.length} favorittapper
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-tight leading-[1.08] text-slate-900">
-              Smarte apper.
-              <br />
-              <span className="text-rose-500">Ekte nytte.</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-extrabold tracking-tight leading-[1.08] text-slate-900">
+              Kampfisk<span className="text-rose-500">Apps</span>
             </h1>
-            <p className="mt-5 text-lg text-slate-500 max-w-md leading-relaxed">
+            <ul className="mt-6 space-y-2 text-lg sm:text-xl font-semibold tracking-tight max-w-lg">
+              <li className="text-slate-800">
+                <span className="text-cyan-500 mr-2">—</span>For efficiency
+              </li>
+              <li className="text-slate-800">
+                <span className="text-cyan-500 mr-2">—</span>For your assistance
+              </li>
+              <li className="text-slate-800">
+                <span className="text-rose-500 mr-2">—</span>For Succeeding
+              </li>
+            </ul>
+            <p className="mt-5 text-base text-slate-500 max-w-md leading-relaxed">
               Utvalgte verktøy for arbeid, læring, helse og hverdagsflyt – samlet på ett sted.
             </p>
 
@@ -674,7 +683,7 @@ function App() {
           <div className="lg:col-span-2">
             <BrandMark size="sm" />
             <p className="mt-3 text-slate-500 text-xs max-w-xs leading-relaxed">
-              Utvalgte Base44-apper med tydelig status, verifiserte lenker og en egen visuell identitet.
+              For efficiency — For your assistance — For Succeeding.
             </p>
           </div>
           <div>

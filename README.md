@@ -1,6 +1,6 @@
 # KampfiskApps Marketplace
 
-**Oppdag. Kjøp. Bruk. Kampfisk.**
+**KampfiskApps — For efficiency — For your assistance — For Succeeding**
 
 Light & Bright webstore for KampfiskApps products. Production target: **https://www.kampfiskapps.com**
 
