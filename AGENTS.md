@@ -27,7 +27,7 @@ Use-StripeApp shroomfinder    # FungaDex / Shroomfinder payments
 | Product | Live / purchase |
 |---------|-----------------|
 | FungaDex (Shroomfinder) | https://rare-wild-fungi-find.base44.app |
-| FitFam Connect | https://fitfam-trial.base44.app/pricing |
+| FitFam Activity | https://fitfam.site |
 | WoodCraft Pro | https://woodcraft-pro.base44.app |
 | Lesetid | https://lesetid.base44.app |
 | Spot-Finder | https://spot-finder.base44.app |

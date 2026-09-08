@@ -8,7 +8,7 @@ No `sk_` keys in this repo.
 
 | App | Live URL | Checkout entry | Webhook URL | Profile |
 |-----|----------|----------------|-------------|---------|
-| **FitFam Connect** | https://fitfam-trial.base44.app | `/pricing` → `createCheckoutSession` | `…/api/functions/stripeWebhook` | `-p fitfam` |
+| **FitFam Activity** | https://fitfam.site | `/pricing` → `createCheckoutSession` | `…/api/functions/stripeWebhook` | `-p fitfam` |
 | **FungaDex** | https://rare-wild-fungi-find.base44.app | in-app upgrade → `createCheckoutSession` / `createCheckout` | `…/api/functions/stripeWebhook` | `-p shroomfinder` |
 
 ## Stripe resources (TEST)
@@ -28,7 +28,7 @@ Base44 secrets:
 - `STRIPE_WEBHOOK_SECRET` (from FitFam webhook endpoint)
 - `STRIPE_PRICE_PREMIUM` = `price_1TwZsp25kc0CDwRany6Rlr2r`
 - `STRIPE_PRICE_FAMILY_PLUS` = `price_1TwZsr25kc0CDwRaZw4NWmSS`
-- `PUBLIC_APP_URL` = `https://fitfam-trial.base44.app`
+- `PUBLIC_APP_URL` = `https://fitfam.site`
 
 ### FungaDex
 

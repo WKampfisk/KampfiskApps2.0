@@ -73,7 +73,7 @@ Already live (HTTP 200) and listed on the storefront:
 | App | Live URL |
 |-----|----------|
 | FungaDex | https://rare-wild-fungi-find.base44.app |
-| FitFam Connect | https://fitfam.base44.app |
+| FitFam Activity | https://fitfam.site |
 | Spot-Finder | https://spot-finder.base44.app |
 | BitMiner | https://bitminer.base44.app |
 | Treprodukter | https://crouching-wood-craft-blueprint.base44.app |

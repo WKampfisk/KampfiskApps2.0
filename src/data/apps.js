@@ -27,17 +27,17 @@ export const apps = [
   {
     id: 'fitfam-activity',
     base44Id: '69f51c5919f02c320bbcd1ad',
-    name: 'FitFam Connect',
+    name: 'FitFam Activity',
     tagline: 'Gulvet er lava. Klokka går. Alle over.',
     description:
       'Familielek hjemme med 3D-avatarer. Default for 4–8 barn er Puterelven: puter er trygge, gulvet er lava, alle over før tiden.',
     longDescription:
-      'FitFam Connect samler familien rundt enkle leker med husets ting. Puterelven er default: ingen hopp på møbler, klokka i bildet, 3D-stiliserte avatarer — ikke fotorealistiske barn. Åpne FitFam for å starte. Premium 49 kr/mnd, Family Plus 79 kr/mnd.',
+      'FitFam Activity samler familien rundt enkle leker med husets ting. Puterelven er default: ingen hopp på møbler, klokka i bildet, 3D-stiliserte avatarer — ikke fotorealistiske barn. Åpne FitFam for å starte på fitfam.site. Premium 49 kr/mnd, Family Plus 79 kr/mnd.',
     category: 'Health & Family',
     categoryNo: 'Helse og familie',
     priceNo: '49 / 79 kr/mnd',
     status: 'Live',
-    webUrl: 'https://fitfam-trial.base44.app',
+    webUrl: 'https://fitfam.site',
     ctaLabel: 'Åpne FitFam',
     tags: ['Familie', 'Aktivitet', 'Vaner', 'Base44'],
     image: '/apps/fitfam-activity.webp',
