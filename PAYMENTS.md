@@ -10,6 +10,7 @@ No `sk_` keys in this repo.
 |-----|----------|----------------|-------------|---------|
 | **FitFam Activity** | https://fitfam.site | `/pricing` → `createCheckoutSession` | `…/api/functions/stripeWebhook` | `-p fitfam` |
 | **FungaDex** | https://rare-wild-fungi-find.base44.app | in-app upgrade → `createCheckoutSession` / `createCheckout` | `…/api/functions/stripeWebhook` | `-p shroomfinder` |
+| **Sakshjelperen** | https://sakshjelperen-app.base44.app | `/abonnement` → `createCheckoutSession` | `we_1UE8Ls25kc0CDwRa3dE2Yttj` → `…/api/functions/stripeWebhook` | `Use-StripeApp sakshjelperen` |
 
 ## Stripe resources (TEST)
 
@@ -45,6 +46,17 @@ Base44 secrets:
 - `STRIPE_WEBHOOK_SECRET` — copy from `base44-apps/shroomfinder/.stripe-webhook-local.env` (gitignored) or Dashboard
 - `STRIPE_PRICE_PREMIUM` = `price_1TwZsn25kc0CDwRaLt6bWhI4`
 - `PUBLIC_APP_URL` = `https://rare-wild-fungi-find.base44.app`
+
+### Sakshjelperen
+
+| Resource | ID / value |
+|----------|------------|
+| App | https://sakshjelperen-app.base44.app |
+| Checkout | `/abonnement` → `createCheckoutSession({ plan })` |
+| Webhook | `https://sakshjelperen-app.base44.app/api/functions/stripeWebhook` |
+| Plans | Dokumentlager 25 · Basic 49 · Pro 149 (100 credits) · Enterprise 399 (500 credits) NOK/mo |
+
+Checkout uses server-side `price_data` until `STRIPE_PRICE_*` secrets are set. Do not enable Stripe Tax before an MVA registration decision. Full runbook: `base44-apps/sakshjelperen/docs/STRIPE_SETUP.md`.
 
 ## Marketplace UX
 
