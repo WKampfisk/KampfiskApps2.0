@@ -63,6 +63,26 @@ export const apps = [
     featured: true,
   },
   {
+    id: 'tastygain',
+    base44Id: '6a8c70e20596effd80c14869',
+    name: 'TastyGain',
+    tagline: 'Små porsjoner. Nok mat. Skikkelig godt.',
+    description:
+      'Planlegg små, smakfulle biter — søtt, salt, kake og godteri — så du spiser nok til muskelvekst.',
+    longDescription:
+      'TastyGain er en måltidsplanlegger for å spise nok i små porsjoner. Kake, godteri, salt og søtt er førsteklasses, med protein i det som smaker. Appen erstatter ikke lege, ernæringsfysiolog eller trening.',
+    category: 'Health & Family',
+    categoryNo: 'Helse og familie',
+    priceNo: 'Åpen beta',
+    status: 'Live',
+    webUrl: 'https://tasty-gain-80c14869.base44.app',
+    github: 'https://github.com/WKampfisk/tastygain',
+    ctaLabel: 'Åpne TastyGain',
+    tags: ['Måltider', 'Muskelvekst', 'Planlegging', 'Base44'],
+    image: '/apps/tastygain.webp',
+    featured: true,
+  },
+  {
     id: 'woodcraft-pro',
     base44Id: '6a4605151e4e354ac0e7e9fe',
     name: 'WoodCraft Pro',
