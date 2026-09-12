@@ -1,0 +1,33 @@
+name: KampfiskAccounting CI
+
+on:
+  push:
+    branches:
+      - feat/kampfisk-accounting-mvp-01
+    paths:
+      - 'apps/kampfisk-accounting/**'
+      - '.github/workflows/kampfisk-accounting-ci.yml'
+  pull_request:
+    paths:
+      - 'apps/kampfisk-accounting/**'
+      - '.github/workflows/kampfisk-accounting-ci.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/kampfisk-accounting
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/kampfisk-accounting/package.json
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Build
+        run: npm run build
